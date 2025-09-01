@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آیینهٔ ابدیت 🔮</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tone@14.7.58/build/Tone.js"></script>
+    <style>
+        body {
+            overflow: hidden;
+            font-family: 'B Nazanin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            direction: rtl; /* Set direction to right-to-left for Persian */
+        }
+    </style>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
+
+    <div id="root" class="relative z-10 text-center p-8 max-w-2xl mx-auto"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const generateSurrealContent = () => {
+            const types = ['text', 'p5', 'tone', 'combo'];
+            const randomType = types[Math.floor(Math.random() * types.length)];
+            const texts = [
+                'نقشه‌هایی از سایه‌های فراموش‌شده.',
+                'کد کوانتومی برای ارتباط با کرم‌چاله‌ها.',
+                'آوای ستاره‌های خاموش.',
+                'هفت قانون از جهان‌های گمشده.',
+                'آینه ابدیت: حقیقت در میان خطاها.',
+                'زمزمه‌های یک کهکشان دیگر.',
+            ];
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+
+            return {
+                type: randomType,
+                content: randomText,
+            };
+        };
+
+        const App = () => {
+            const [content, setContent] = useState(generateSurrealContent());
+            const p5ContainerRef = useRef(null);
+
+            const handleRefresh = () => {
+                setContent(generateSurrealContent());
+            };
+
+            const renderP5Sketch = (p) => {
+                let points = [];
+                let scaleFactor = 0.005;
+
+                p.setup = () => {
+                    p.createCanvas(p.windowWidth, p.windowHeight).position(0, 0).style('z-index', '-1');
+                    p.stroke(255, 10);
+                    p.noFill();
+                    p.background(0);
+                    for (let i = 0; i < 5000; i++) {
+                        points.push({
+                            x: p.random(p.width),
+                            y: p.random(p.height),
+                            z: p.random(100),
+                        });
+                    }
+                };
+
+                p.draw = () => {
+                    p.background(0, 10);
+                    p.translate(p.width / 2, p.height / 2);
+
+                    points.forEach((point) => {
+                        let angle = p.noise(point.x * scaleFactor, point.y * scaleFactor, p.frameCount * 0.001) * p.TWO_PI * 4;
+                        let v = p5.Vector.fromAngle(angle);
+                        v.mult(0.5);
+                        point.x += v.x;
+                        point.y += v.y;
+
+                        let alpha = p.map(p.dist(p.width/2, p.height/2, point.x, point.y), 0, p.width/2, 255, 0);
+                        p.stroke(255, 255, 255, alpha);
+                        p.point(point.x, point.y);
+
+                        if (point.x < -p.width/2 || point.x > p.width/2 || point.y < -p.height/2 || point.y > p.height/2) {
+                            point.x = p.random(-p.width/2, p.width/2);
+                            point.y = p.random(-p.height/2, p.height/2);
+                        }
+                    });
+                };
+            };
+
+            const playSurrealTone = () => {
+                try {
+                    const synth = new Tone.PolySynth(Tone.AMSynth).toDestination();
+                    const now = Tone.now();
+                    const notes = ['C3', 'E3', 'G3', 'B3', 'D4', 'F#4'].sort(() => Math.random() - 0.5);
+
+                    notes.forEach((note, index) => {
+                        synth.triggerAttackRelease(note, '8n', now + index * 0.5);
+                    });
+                } catch (error) {
+                    console.error("Tone.js failed to play: ", error);
+                }
+            };
+            
+            useEffect(() => {
+                if (content.type === 'p5' || content.type === 'combo') {
+                    const myp5 = new p5(renderP5Sketch, p5ContainerRef.current);
+                    return () => {
+                        myp5.remove();
+                    };
+                }
+            }, [content.type]);
+
+            useEffect(() => {
+                if (content.type === 'tone' || content.type === 'combo') {
+                    playSurrealTone();
+                }
+            }, [content.type]);
+
+            return (
+                <div className="relative w-full h-full">
+                    <div ref={p5ContainerRef} className="absolute inset-0"></div>
+                    <div className="flex flex-col items-center justify-center min-h-screen w-full relative z-10">
+                        <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 animate-pulse">
+                            آیینهٔ ابدیت
+                        </h1>
+                        <p className="text-xl md:text-2xl text-gray-300 font-light mb-8">
+                            {content.content}
+                        </p>
+                        <button
+                            onClick={handleRefresh}
+                            className="bg-purple-700 hover:bg-purple-900 transition-colors duration-300 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95"
+                        >
+                            ورود به بُعد بعدی
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+
+    </script>
+</body>
+</html>
