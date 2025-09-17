@@ -1,151 +1,154 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آیینهٔ ابدیت 🔮</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tone@14.7.58/build/Tone.js"></script>
-    <style>
-        body {
-            overflow: hidden;
-            font-family: 'B Nazanin', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            direction: rtl; /* Set direction to right-to-left for Persian */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>بازی شلیک</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      overflow: hidden;
+      font-family: sans-serif;
+      color: white;
+    }
+
+    #game {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #player {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      background: cyan;
+      transform: translateX(-50%);
+      border-radius: 50%;
+    }
+
+    .bullet {
+      position: absolute;
+      width: 5px;
+      height: 20px;
+      background: yellow;
+    }
+
+    .enemy {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 20px;
+    }
+  </style>
 </head>
-<body class="bg-black text-white flex items-center justify-center min-h-screen">
+<body>
+  <div id="game">
+    <div id="player"></div>
+    <div id="score">امتیاز: 0</div>
+  </div>
 
-    <div id="root" class="relative z-10 text-center p-8 max-w-2xl mx-auto"></div>
+  <script>
+    const game = document.getElementById("game");
+    const player = document.getElementById("player");
+    const scoreDisplay = document.getElementById("score");
 
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+    let score = 0;
+    let bullets = [];
+    let enemies = [];
+    let playerX = window.innerWidth / 2;
 
-        const generateSurrealContent = () => {
-            const types = ['text', 'p5', 'tone', 'combo'];
-            const randomType = types[Math.floor(Math.random() * types.length)];
-            const texts = [
-                'نقشه‌هایی از سایه‌های فراموش‌شده.',
-                'کد کوانتومی برای ارتباط با کرم‌چاله‌ها.',
-                'آوای ستاره‌های خاموش.',
-                'هفت قانون از جهان‌های گمشده.',
-                'آینه ابدیت: حقیقت در میان خطاها.',
-                'زمزمه‌های یک کهکشان دیگر.',
-            ];
-            const randomText = texts[Math.floor(Math.random() * texts.length)];
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") playerX -= 20;
+      if (e.key === "ArrowRight") playerX += 20;
+      if (e.key === " ") shoot();
+      player.style.left = `${playerX}px`;
+    });
 
-            return {
-                type: randomType,
-                content: randomText,
-            };
-        };
+    function shoot() {
+      const bullet = document.createElement("div");
+      bullet.className = "bullet";
+      bullet.style.left = `${playerX + 17}px`;
+      bullet.style.bottom = "60px";
+      game.appendChild(bullet);
+      bullets.push(bullet);
+    }
 
-        const App = () => {
-            const [content, setContent] = useState(generateSurrealContent());
-            const p5ContainerRef = useRef(null);
+    function spawnEnemy() {
+      const enemy = document.createElement("div");
+      enemy.className = "enemy";
+      enemy.style.left = `${Math.random() * window.innerWidth}px`;
+      enemy.style.top = "0px";
+      game.appendChild(enemy);
+      enemies.push(enemy);
+    }
 
-            const handleRefresh = () => {
-                setContent(generateSurrealContent());
-            };
+    function updateBullets() {
+      bullets.forEach((bullet, i) => {
+        let bottom = parseInt(bullet.style.bottom);
+        bullet.style.bottom = `${bottom + 10}px`;
+        if (bottom > window.innerHeight) {
+          bullet.remove();
+          bullets.splice(i, 1);
+        }
+      });
+    }
 
-            const renderP5Sketch = (p) => {
-                let points = [];
-                let scaleFactor = 0.005;
+    function updateEnemies() {
+      enemies.forEach((enemy, i) => {
+        let top = parseInt(enemy.style.top);
+        enemy.style.top = `${top + 5}px`;
+        if (top > window.innerHeight) {
+          enemy.remove();
+          enemies.splice(i, 1);
+        }
+      });
+    }
 
-                p.setup = () => {
-                    p.createCanvas(p.windowWidth, p.windowHeight).position(0, 0).style('z-index', '-1');
-                    p.stroke(255, 10);
-                    p.noFill();
-                    p.background(0);
-                    for (let i = 0; i < 5000; i++) {
-                        points.push({
-                            x: p.random(p.width),
-                            y: p.random(p.height),
-                            z: p.random(100),
-                        });
-                    }
-                };
+    function checkCollisions() {
+      bullets.forEach((bullet, bi) => {
+        const bRect = bullet.getBoundingClientRect();
+        enemies.forEach((enemy, ei) => {
+          const eRect = enemy.getBoundingClientRect();
+          if (
+            bRect.left < eRect.right &&
+            bRect.right > eRect.left &&
+            bRect.top < eRect.bottom &&
+            bRect.bottom > eRect.top
+          ) {
+            bullet.remove();
+            enemy.remove();
+            bullets.splice(bi, 1);
+            enemies.splice(ei, 1);
+            score++;
+            scoreDisplay.textContent = `امتیاز: ${score}`;
+          }
+        });
+      });
+    }
 
-                p.draw = () => {
-                    p.background(0, 10);
-                    p.translate(p.width / 2, p.height / 2);
+    setInterval(() => {
+      spawnEnemy();
+    }, 1000);
 
-                    points.forEach((point) => {
-                        let angle = p.noise(point.x * scaleFactor, point.y * scaleFactor, p.frameCount * 0.001) * p.TWO_PI * 4;
-                        let v = p5.Vector.fromAngle(angle);
-                        v.mult(0.5);
-                        point.x += v.x;
-                        point.y += v.y;
+    function gameLoop() {
+      updateBullets();
+      updateEnemies();
+      checkCollisions();
+      requestAnimationFrame(gameLoop);
+    }
 
-                        let alpha = p.map(p.dist(p.width/2, p.height/2, point.x, point.y), 0, p.width/2, 255, 0);
-                        p.stroke(255, 255, 255, alpha);
-                        p.point(point.x, point.y);
-
-                        if (point.x < -p.width/2 || point.x > p.width/2 || point.y < -p.height/2 || point.y > p.height/2) {
-                            point.x = p.random(-p.width/2, p.width/2);
-                            point.y = p.random(-p.height/2, p.height/2);
-                        }
-                    });
-                };
-            };
-
-            const playSurrealTone = () => {
-                try {
-                    const synth = new Tone.PolySynth(Tone.AMSynth).toDestination();
-                    const now = Tone.now();
-                    const notes = ['C3', 'E3', 'G3', 'B3', 'D4', 'F#4'].sort(() => Math.random() - 0.5);
-
-                    notes.forEach((note, index) => {
-                        synth.triggerAttackRelease(note, '8n', now + index * 0.5);
-                    });
-                } catch (error) {
-                    console.error("Tone.js failed to play: ", error);
-                }
-            };
-            
-            useEffect(() => {
-                if (content.type === 'p5' || content.type === 'combo') {
-                    const myp5 = new p5(renderP5Sketch, p5ContainerRef.current);
-                    return () => {
-                        myp5.remove();
-                    };
-                }
-            }, [content.type]);
-
-            useEffect(() => {
-                if (content.type === 'tone' || content.type === 'combo') {
-                    playSurrealTone();
-                }
-            }, [content.type]);
-
-            return (
-                <div className="relative w-full h-full">
-                    <div ref={p5ContainerRef} className="absolute inset-0"></div>
-                    <div className="flex flex-col items-center justify-center min-h-screen w-full relative z-10">
-                        <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 animate-pulse">
-                            آیینهٔ ابدیت
-                        </h1>
-                        <p className="text-xl md:text-2xl text-gray-300 font-light mb-8">
-                            {content.content}
-                        </p>
-                        <button
-                            onClick={handleRefresh}
-                            className="bg-purple-700 hover:bg-purple-900 transition-colors duration-300 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 active:scale-95"
-                        >
-                            ورود به بُعد بعدی
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-
-    </script>
+    gameLoop();
+  </script>
 </body>
 </html>
