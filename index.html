@@ -53,8 +53,8 @@
       const resultBox = document.getElementById('result');
       resultBox.innerHTML = '⏳ در حال بررسی...';
 
-      // 🔐 کلید API شما — لطفاً در نسخه نهایی از سمت سرور استفاده شود
-      const apiKey = "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";
+      // 🔐 کلید جدید شما
+      const apiKey = "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";
       const baseUrl = "https://api.gapgpt.app/v1/models";
 
       try {
@@ -68,13 +68,13 @@
         if (response.ok) {
           const data = await response.json();
           const models = data.data.map(m => m.id).join('\n');
-          resultBox.innerHTML = `<strong>✅ کلید معتبر است!</strong><br>مدل‌های قابل دسترسی:<br><pre>${models}</pre>`;
+          resultBox.innerHTML = <strong>✅ کلید معتبر است!</strong><br>مدل‌های قابل دسترسی:<br><pre>${models}</pre>;
         } else {
           const error = await response.json();
-          resultBox.innerHTML = `<strong>❌ کلید نامعتبر یا محدود شده</strong><br><pre>${JSON.stringify(error, null, 2)}</pre>`;
+          resultBox.innerHTML = <strong>❌ کلید نامعتبر یا محدود شده</strong><br>پاسخ سرور:<br><pre>${JSON.stringify(error, null, 2)}</pre>;
         }
       } catch (err) {
-        resultBox.innerHTML = `<strong>⚠️ خطا در اتصال یا درخواست</strong><br><pre>${err.message}</pre>`;
+        resultBox.innerHTML = <strong>⚠️ خطا در اتصال یا درخواست</strong><br><pre>${err.message}</pre>;
       }
     }
   </script>
