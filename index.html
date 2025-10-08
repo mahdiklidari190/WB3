@@ -1,30 +1,82 @@
-<script>
-  async function checkKey() {
-    const resultBox = document.getElementById('result');
-    resultBox.innerHTML = '⏳ در حال بررسی...';
-
-    // 🔐 کلید جدید شما
-    const apiKey = "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";
-    const baseUrl = "https://api.gapgpt.app/v1/models";
-
-    try {
-      const response = await fetch(baseUrl, {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer ' + apiKey
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const models = data.data.map(m => m.id).join('\n');
-        resultBox.innerHTML = `<strong>✅ کلید معتبر است!</strong><br>مدل‌های قابل دسترسی:<br><pre>${models}</pre>`;
-      } else {
-        const error = await response.json();
-        resultBox.innerHTML = `<strong>❌ کلید نامعتبر یا محدود شده</strong><br><pre>${JSON.stringify(error, null, 2)}</pre>`;
-      }
-    } catch (err) {
-      resultBox.innerHTML = `<strong>⚠️ خطا در اتصال یا درخواست</strong><br><pre>${err.message}</pre>`;
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تست کلید GapGPT</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
     }
-  }
-</script>
+    h1 {
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    .result {
+      margin-top: 2rem;
+      max-width: 600px;
+      background: white;
+      padding: 1rem;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      direction: ltr;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <h1>تست اعتبار کلید GapGPT</h1>
+  <button onclick="checkKey()">بررسی کلید</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    async function checkKey() {
+      const resultBox = document.getElementById('result');
+      resultBox.innerHTML = '⏳ در حال بررسی...';
+
+      // 🔐 کلید API شما — لطفاً در نسخه نهایی از سمت سرور استفاده شود
+      const apiKey = "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";
+      const baseUrl = "https://api.gapgpt.app/v1/models";
+
+      try {
+        const response = await fetch(baseUrl, {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer ' + apiKey
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const models = data.data.map(m => m.id).join('\n');
+          resultBox.innerHTML = `<strong>✅ کلید معتبر است!</strong><br>مدل‌های قابل دسترسی:<br><pre>${models}</pre>`;
+        } else {
+          const error = await response.json();
+          resultBox.innerHTML = `<strong>❌ کلید نامعتبر یا محدود شده</strong><br><pre>${JSON.stringify(error, null, 2)}</pre>`;
+        }
+      } catch (err) {
+        resultBox.innerHTML = `<strong>⚠️ خطا در اتصال یا درخواست</strong><br><pre>${err.message}</pre>`;
+      }
+    }
+  </script>
+</body>
+</html>
