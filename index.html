@@ -50,11 +50,15 @@
     }
     .result {
       margin-top: 1rem;
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #374151;
+      white-space: pre-wrap;
+      text-align: left;
+      direction: ltr;
     }
     .success { color: green; }
     .error { color: red; }
+    .warning { color: orange; }
   </style>
 </head>
 <body>
@@ -64,15 +68,16 @@
     <button onclick="testToken()">تست توکن</button>
     <div class="result" id="resultBox"></div>
   </div>
+
   <script>
     async function testToken() {
       const token = document.getElementById('tokenInput').value.trim();
       const resultBox = document.getElementById('resultBox');
-      resultBox.textContent = 'در حال بررسی...';
+      resultBox.textContent = '⏳ در حال بررسی...';
       resultBox.className = 'result';
 
       if (!token) {
-        resultBox.textContent = 'لطفاً یک توکن وارد کنید.';
+        resultBox.textContent = '⚠️ لطفاً یک توکن وارد کنید.';
         resultBox.classList.add('error');
         return;
       }
@@ -81,6 +86,8 @@
         "https://api.gapgpt.app/v1",
         "https://api.gapapi.com/v1"
       ];
+
+      let foundValid = false;
 
       for (let baseUrl of baseUrls) {
         try {
@@ -97,25 +104,34 @@
             })
           });
 
+          const statusCode = response.status;
           const data = await response.json();
 
-          if (data.choices && data.choices[0] && data.choices[0].message) {
-            resultBox.textContent = `✅ توکن معتبر است (از ${baseUrl})`;
+          if (response.ok && data.choices?.[0]?.message) {
+            resultBox.textContent = `✅ توکن معتبر است و پاسخ دریافت شد از:\n${baseUrl}`;
             resultBox.classList.add('success');
-            return;
+            foundValid = true;
+            break;
           } else if (data.error) {
-            resultBox.textContent = `❌ خطا از ${baseUrl}: ${data.error.message}`;
+            let msg = `❌ خطا از ${baseUrl}\n`;
+            msg += `کد وضعیت: ${statusCode}\n`;
+            msg += `پیام خطا: ${data.error.message}\n`;
+            if (data.error.code) msg += `کد خطا: ${data.error.code}`;
+            resultBox.textContent += msg + '\n\n';
             resultBox.classList.add('error');
           } else {
-            resultBox.textContent = `❌ پاسخ نامشخص از ${baseUrl}`;
+            resultBox.textContent += `❌ پاسخ نامشخص از ${baseUrl} (کد ${statusCode})\n\n`;
             resultBox.classList.add('error');
           }
         } catch (err) {
-          console.warn(`خطا در اتصال به ${baseUrl}`, err);
+          resultBox.textContent += `⚠️ اتصال به ${baseUrl} برقرار نشد:\n${err.message}\n\n`;
+          resultBox.classList.add('warning');
         }
       }
 
-      resultBox.textContent += '\n⛔ هیچ‌کدام از آدرس‌ها پاسخ معتبر ندادند.';
+      if (!foundValid) {
+        resultBox.textContent += '⛔ هیچ‌کدام از آدرس‌ها پاسخ معتبر ندادند.';
+      }
     }
   </script>
 </body>
