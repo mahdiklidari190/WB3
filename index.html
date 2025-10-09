@@ -1,81 +1,121 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تست کلید OpenAI</title>
+  <meta charset="UTF-8">
+  <title>تست توکن GAP API</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #f3f4f6;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      padding: 2rem;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-    h1 {
-      color: #1f2937;
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 1rem;
+      color: #4f46e5;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       margin-bottom: 1rem;
     }
     button {
-      padding: 0.5rem 1rem;
-      background-color: #2563eb;
+      background: #4f46e5;
       color: white;
       border: none;
-      border-radius: 4px;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
     button:hover {
-      background-color: #1d4ed8;
+      background: #4338ca;
     }
     .result {
-      margin-top: 2rem;
-      max-width: 600px;
-      background: white;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      direction: ltr;
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #374151;
     }
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
+    .success { color: green; }
+    .error { color: red; }
   </style>
 </head>
 <body>
-  <h1>تست اعتبار کلید OpenAI</h1>
-  <button onclick="checkKey()">بررسی کلید</button>
-  <div class="result" id="result"></div>
-
+  <div class="container">
+    <h2>تست اعتبار توکن GAP API</h2>
+    <input type="text" id="tokenInput" placeholder="توکن خود را وارد کنید">
+    <button onclick="testToken()">تست توکن</button>
+    <div class="result" id="resultBox"></div>
+  </div>
   <script>
-    async function checkKey() {
-      const resultBox = document.getElementById('result');
-      resultBox.innerHTML = '⏳ در حال بررسی...';
+    async function testToken() {
+      const token = document.getElementById('tokenInput').value.trim();
+      const resultBox = document.getElementById('resultBox');
+      resultBox.textContent = 'در حال بررسی...';
+      resultBox.className = 'result';
 
-      // 🔐 کلید OpenAI شما
-      const apiKey = "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";
-      const baseUrl = "https://api.openai.com/v1/models";
-
-      try {
-        const response = await fetch(baseUrl, {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Bearer ' + apiKey
-          }
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const models = data.data.map(m => m.id).join('\n');
-          resultBox.innerHTML = `<strong>✅ کلید معتبر است!</strong><br>مدل‌های قابل دسترسی:<br><pre>${models}</pre>`;
-        } else {
-          const error = await response.json();
-          resultBox.innerHTML = `<strong>❌ کلید نامعتبر یا محدود شده</strong><br>پاسخ سرور:<br><pre>${JSON.stringify(error, null, 2)}</pre>`;
-        }
-      } catch (err) {
-        resultBox.innerHTML = `<strong>⚠️ خطا در اتصال یا درخواست</strong><br><pre>${err.message}</pre>`;
+      if (!token) {
+        resultBox.textContent = 'لطفاً یک توکن وارد کنید.';
+        resultBox.classList.add('error');
+        return;
       }
+
+      const baseUrls = [
+        "https://api.gapgpt.app/v1",
+        "https://api.gapapi.com/v1"
+      ];
+
+      for (let baseUrl of baseUrls) {
+        try {
+          const response = await fetch(`${baseUrl}/chat/completions`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              model: "gpt-4o",
+              messages: [{ role: "user", content: "سلام" }],
+              max_tokens: 10
+            })
+          });
+
+          const data = await response.json();
+
+          if (data.choices && data.choices[0] && data.choices[0].message) {
+            resultBox.textContent = `✅ توکن معتبر است (از ${baseUrl})`;
+            resultBox.classList.add('success');
+            return;
+          } else if (data.error) {
+            resultBox.textContent = `❌ خطا از ${baseUrl}: ${data.error.message}`;
+            resultBox.classList.add('error');
+          } else {
+            resultBox.textContent = `❌ پاسخ نامشخص از ${baseUrl}`;
+            resultBox.classList.add('error');
+          }
+        } catch (err) {
+          console.warn(`خطا در اتصال به ${baseUrl}`, err);
+        }
+      }
+
+      resultBox.textContent += '\n⛔ هیچ‌کدام از آدرس‌ها پاسخ معتبر ندادند.';
     }
   </script>
 </body>
