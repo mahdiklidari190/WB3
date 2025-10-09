@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>تست توکن GAP API</title>
+  <title>تست توکن لیارا AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -63,7 +63,7 @@
 </head>
 <body>
   <div class="container">
-    <h2>تست اعتبار توکن GAP API</h2>
+    <h2>تست اعتبار توکن لیارا AI</h2>
     <input type="text" id="tokenInput" placeholder="توکن خود را وارد کنید">
     <button onclick="testToken()">تست توکن</button>
     <div class="result" id="resultBox"></div>
@@ -82,55 +82,42 @@
         return;
       }
 
-      const baseUrls = [
-        "https://api.gapgpt.app/v1",
-        "https://api.gapapi.com/v1"
-      ];
+      const baseUrl = "https://ai.liara.ir/api/68e776bbd835e1fc224e9a5e/v1";
 
-      let foundValid = false;
+      try {
+        const response = await fetch(`${baseUrl}/chat/completions`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            model: "openai/gpt-4o-mini",
+            messages: [{ role: "user", content: "سلام" }],
+            max_tokens: 10
+          })
+        });
 
-      for (let baseUrl of baseUrls) {
-        try {
-          const response = await fetch(`${baseUrl}/chat/completions`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              model: "gpt-4o",
-              messages: [{ role: "user", content: "سلام" }],
-              max_tokens: 10
-            })
-          });
+        const statusCode = response.status;
+        const data = await response.json();
 
-          const statusCode = response.status;
-          const data = await response.json();
-
-          if (response.ok && data.choices?.[0]?.message) {
-            resultBox.textContent = `✅ توکن معتبر است و پاسخ دریافت شد از:\n${baseUrl}`;
-            resultBox.classList.add('success');
-            foundValid = true;
-            break;
-          } else if (data.error) {
-            let msg = `❌ خطا از ${baseUrl}\n`;
-            msg += `کد وضعیت: ${statusCode}\n`;
-            msg += `پیام خطا: ${data.error.message}\n`;
-            if (data.error.code) msg += `کد خطا: ${data.error.code}`;
-            resultBox.textContent += msg + '\n\n';
-            resultBox.classList.add('error');
-          } else {
-            resultBox.textContent += `❌ پاسخ نامشخص از ${baseUrl} (کد ${statusCode})\n\n`;
-            resultBox.classList.add('error');
-          }
-        } catch (err) {
-          resultBox.textContent += `⚠️ اتصال به ${baseUrl} برقرار نشد:\n${err.message}\n\n`;
-          resultBox.classList.add('warning');
+        if (response.ok && data.choices?.[0]?.message) {
+          resultBox.textContent = `✅ توکن معتبر است و پاسخ دریافت شد از:\n${baseUrl}`;
+          resultBox.classList.add('success');
+        } else if (data.error) {
+          let msg = `❌ خطا از ${baseUrl}\n`;
+          msg += `کد وضعیت: ${statusCode}\n`;
+          msg += `پیام خطا: ${data.error.message}\n`;
+          if (data.error.code) msg += `کد خطا: ${data.error.code}`;
+          resultBox.textContent = msg;
+          resultBox.classList.add('error');
+        } else {
+          resultBox.textContent = `❌ پاسخ نامشخص از ${baseUrl} (کد ${statusCode})`;
+          resultBox.classList.add('error');
         }
-      }
-
-      if (!foundValid) {
-        resultBox.textContent += '⛔ هیچ‌کدام از آدرس‌ها پاسخ معتبر ندادند.';
+      } catch (err) {
+        resultBox.textContent = `⚠️ اتصال به ${baseUrl} برقرار نشد:\n${err.message}`;
+        resultBox.classList.add('warning');
       }
     }
   </script>
