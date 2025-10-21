@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تبلیغات سورن‌اد</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تست تبلیغات سورن‌اد</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #f4f4f4;
+      background: #f9f9f9;
       padding: 40px;
       text-align: center;
     }
     h1 {
       color: #333;
-      margin-bottom: 20px;
     }
     .ad-container {
       margin: 20px auto;
-      padding: 10px;
-      border: 1px dashed #ccc;
+      padding: 15px;
+      border: 2px dashed #ccc;
       background: #fff;
       max-width: 600px;
     }
+    .ad-container::before {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #888;
+    }
+    #sorenad_banner2::before { content: "جایگاه: بنر بزرگ (sorenad_banner2)"; }
+    #sorenad_banner::before { content: "جایگاه: بنر کناری (sorenad_banner)"; }
+    #sorenad_fixpost::before { content: "جایگاه: پست ثابت (sorenad_fixpost)"; }
+    #sorenad_video::before { content: "جایگاه: ویدیو (sorenad_video)"; }
+    #sorenad_text::before { content: "جایگاه: تبلیغ متنی (sorenad_text)"; }
   </style>
 </head>
 <body>
-  <h1>سایت تست سورن‌اد</h1>
+  <h1>تست تبلیغات سورن‌اد</h1>
   <p>در حال بارگذاری تبلیغات...</p>
 
-  <div class="ad-container" id="sorenad_banner2"></div>
-  <div class="ad-container" id="sorenad_banner"></div>
-  <div class="ad-container" id="sorenad_fixpost"></div>
-  <div class="ad-container" id="sorenad_video"></div>
-  <div class="ad-container" id="sorenad_text"></div>
+  <div class="ad-container" id="sorenad_banner2">منتظر تبلیغ...</div>
+  <div class="ad-container" id="sorenad_banner">منتظر تبلیغ...</div>
+  <div class="ad-container" id="sorenad_fixpost">منتظر تبلیغ...</div>
+  <div class="ad-container" id="sorenad_video">منتظر تبلیغ...</div>
+  <div class="ad-container" id="sorenad_text">منتظر تبلیغ...</div>
 
   <script>
     window.addEventListener("load", function () {
