@@ -40,7 +40,8 @@
     .lls-button img {
       width: 28px;
       height: auto;
-      filter: brightness(0) invert(1);
+      border-radius: 4px;
+      box-shadow: 0 0 4px rgba(212, 175, 55, 0.4);
     }
 
     .lls-panel {
@@ -72,6 +73,7 @@
       width: 20px;
       height: auto;
       margin-right: 5px;
+      border-radius: 3px;
     }
 
     .lls-option:hover {
@@ -100,17 +102,19 @@
 <body>
 
   <div class="lls-container">
+    <!-- 👇 تغییر آدرس پرچم بر اساس زبان صفحه -->
     <button class="lls-button" id="lls-toggle">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Google_Translate_Icon.svg" alt="Translate Icon" />
+      <img src="https://flagcdn.com/us.svg" alt="Current Language" />
     </button>
+
     <div class="lls-panel" id="lls-panel">
-      <a href="#" class="lls-option">
+      <a href="index.html" class="lls-option">
         <img src="https://flagcdn.com/us.svg" alt="US Flag"> English
       </a>
-      <a href="#" class="lls-option">
+      <a href="de.html" class="lls-option">
         <img src="https://flagcdn.com/de.svg" alt="German Flag"> Deutsch
       </a>
-      <a href="#" class="lls-option">
+      <a href="fa.html" class="lls-option">
         <img src="https://flagcdn.com/ir.svg" alt="Iran Flag"> فارسی
       </a>
     </div>
