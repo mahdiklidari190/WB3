@@ -1,60 +1,136 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تست تبلیغات سورن‌اد</title>
+  <title>Luxury Language Switcher</title>
   <style>
     body {
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
       font-family: sans-serif;
-      background: #f9f9f9;
-      padding: 40px;
-      text-align: center;
     }
-    h1 {
-      color: #333;
+
+    .lls-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
     }
-    .ad-container {
-      margin: 20px auto;
-      padding: 15px;
-      border: 2px dashed #ccc;
-      background: #fff;
-      max-width: 600px;
+
+    .lls-button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #111, #2c2c2c);
+      border: none;
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
     }
-    .ad-container::before {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 14px;
-      color: #888;
+
+    .lls-button:hover {
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.8);
     }
-    #sorenad_banner2::before { content: "جایگاه: بنر بزرگ (sorenad_banner2)"; }
-    #sorenad_banner::before { content: "جایگاه: بنر کناری (sorenad_banner)"; }
-    #sorenad_fixpost::before { content: "جایگاه: پست ثابت (sorenad_fixpost)"; }
-    #sorenad_video::before { content: "جایگاه: ویدیو (sorenad_video)"; }
-    #sorenad_text::before { content: "جایگاه: تبلیغ متنی (sorenad_text)"; }
+
+    .lls-button img {
+      width: 28px;
+      height: auto;
+      filter: brightness(0) invert(1);
+    }
+
+    .lls-panel {
+      position: absolute;
+      bottom: 70px;
+      right: -5px;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 8px;
+      padding: 10px 15px;
+      display: none;
+      flex-direction: column;
+      animation: slideUp 0.4s ease-out forwards;
+      min-width: 160px;
+    }
+
+    .lls-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #f5e6a1;
+      text-decoration: none;
+      margin: 8px 0;
+      font-size: 15px;
+      padding-left: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .lls-option img {
+      width: 20px;
+      height: auto;
+      margin-right: 5px;
+    }
+
+    .lls-option:hover {
+      color: #ffffff;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .lls-button {
+        width: 50px;
+        height: 50px;
+      }
+      .lls-button img {
+        width: 24px;
+      }
+      .lls-option {
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>تست تبلیغات سورن‌اد</h1>
-  <p>در حال بارگذاری تبلیغات...</p>
 
-  <div class="ad-container" id="sorenad_banner2">منتظر تبلیغ...</div>
-  <div class="ad-container" id="sorenad_banner">منتظر تبلیغ...</div>
-  <div class="ad-container" id="sorenad_fixpost">منتظر تبلیغ...</div>
-  <div class="ad-container" id="sorenad_video">منتظر تبلیغ...</div>
-  <div class="ad-container" id="sorenad_text">منتظر تبلیغ...</div>
+  <div class="lls-container">
+    <button class="lls-button" id="lls-toggle">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Google_Translate_Icon.svg" alt="Translate Icon" />
+    </button>
+    <div class="lls-panel" id="lls-panel">
+      <a href="#" class="lls-option">
+        <img src="https://flagcdn.com/us.svg" alt="US Flag"> English
+      </a>
+      <a href="#" class="lls-option">
+        <img src="https://flagcdn.com/de.svg" alt="German Flag"> Deutsch
+      </a>
+      <a href="#" class="lls-option">
+        <img src="https://flagcdn.com/ir.svg" alt="Iran Flag"> فارسی
+      </a>
+    </div>
+  </div>
 
   <script>
-    window.addEventListener("load", function () {
-      let e = document.createElement("script");
-      e.src = "https://panel.sorenad.com/js/soren_ad.js?v=" + Date.now();
-      e.async = false;
-      e.onload = function () {
-        console.log("اجرا شد ✅");
-        if (typeof fetchData === "function") fetchData();
-      };
-      document.body.appendChild(e);
+    document.getElementById('lls-toggle').addEventListener('click', function(e) {
+      e.stopPropagation();
+      const panel = document.getElementById('lls-panel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    document.addEventListener('click', function(e) {
+      const panel = document.getElementById('lls-panel');
+      const toggle = document.getElementById('lls-toggle');
+      if (!panel.contains(e.target) && !toggle.contains(e.target)) {
+        panel.style.display = 'none';
+      }
     });
   </script>
+
 </body>
 </html>
