@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نوار پیشرفت عمودی - طراحی حرفه‌ای</title>
+    <title>نوار پیشرفت طلایی - طراحی تجاری</title>
     <style>
         * {
             margin: 0;
@@ -13,22 +13,24 @@
 
         body {
             font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f8fafc;
+            background: #fefefe;
         }
 
         .progress-container {
             position: fixed;
-            left: 40px;
+            left: 50%;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translate(-50%, -50%);
             width: 6px;
-            height: 400px;
+            height: 60vh;
             background: linear-gradient(to bottom, 
-                #e2e8f0 0%, 
-                #cbd5e1 100%);
+                #f1f1f1 0%, 
+                #e0e0e0 100%);
             border-radius: 3px;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .progress-bar {
@@ -37,12 +39,15 @@
             width: 100%;
             height: 0%;
             background: linear-gradient(to bottom, 
-                #3b82f6 0%, 
-                #1d4ed8 50%, 
-                #1e40af 100%);
+                #FFD700 0%, 
+                #D4AF37 30%, 
+                #B8860B 70%, 
+                #8B6914 100%);
             border-radius: 3px;
             transition: height 0.08s ease-out;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+            box-shadow: 
+                0 2px 10px rgba(212, 175, 55, 0.5),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
         }
 
         .progress-circle {
@@ -50,12 +55,14 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%) translateY(-50%);
-            width: 24px;
-            height: 24px;
-            background: #1e40af;
+            width: 22px;
+            height: 22px;
+            background: #D4AF37;
             border: 3px solid white;
             border-radius: 50%;
-            box-shadow: 0 2px 12px rgba(30, 64, 175, 0.6);
+            box-shadow: 
+                0 2px 12px rgba(212, 175, 55, 0.7),
+                0 0 0 2px rgba(212, 175, 55, 0.2);
             transition: top 0.08s ease-out;
             z-index: 1001;
         }
@@ -66,88 +73,113 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: white;
             border-radius: 50%;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
         }
 
-        /* محتوای نمونه با طراحی حرفه‌ای */
+        /* محتوای نمونه با طراحی تجاری */
         .content {
-            height: 3000px;
-            padding: 60px 80px;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 200vh;
+            padding: 80px 100px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
         }
 
-        .section {
-            margin-bottom: 120px;
-            padding: 40px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .section:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-
-        h1 {
-            color: #1e293b;
-            margin-bottom: 24px;
-            font-size: 2.2rem;
-            font-weight: 700;
+        .hero-section {
             text-align: center;
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            padding: 100px 0;
+            margin-bottom: 80px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #8B6914 0%, #D4AF37 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        h2 {
-            color: #334155;
-            margin: 32px 0 16px 0;
-            font-size: 1.5rem;
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 100px;
+            padding: 50px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0f0f0;
+        }
+
+        .section-title {
+            color: #1a1a1a;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .section-content {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffefc2 100%);
+            border-radius: 15px;
+            border: 2px solid #FFD700;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #B8860B;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #8B6914;
             font-weight: 600;
         }
 
-        p {
-            color: #475569;
-            line-height: 1.8;
-            text-align: justify;
-            font-size: 1.1rem;
-            margin-bottom: 16px;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
-        }
-
-        .feature-card {
-            padding: 24px;
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            border-radius: 12px;
-            border-left: 4px solid #3b82f6;
-        }
-
-        /* ریسپانسیو برای موبایل */
+        /* ریسپانسیو */
         @media (max-width: 768px) {
             .progress-container {
-                left: 20px;
-                height: 300px;
+                width: 5px;
+                height: 50vh;
             }
             
             .content {
                 padding: 40px 20px;
             }
             
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
             .section {
-                padding: 24px;
+                padding: 30px 20px;
             }
         }
     </style>
@@ -159,53 +191,55 @@
     </div>
 
     <div class="content">
+        <div class="hero-section">
+            <h1 class="hero-title">شرکت تجاری طلایی</h1>
+            <p class="hero-subtitle">ارائه‌دهنده راه‌حل‌های نوآورانه در زمینه کسب‌وکار با بیش از ۱۵ سال تجربه موفق</p>
+        </div>
+
         <div class="section">
-            <h1>شرکت نوآوری تجاری</h1>
-            <p>به وبسایت حرفه‌ای ما خوش آمدید. ما با ارائه راه‌حل‌های نوآورانه به کسب‌وکارها کمک می‌کنیم تا به موفقیت‌های بزرگ دست یابند.</p>
-            
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h2>مشاوره تخصصی</h2>
-                    <p>تیم متخصصین ما با سال‌ها تجربه در زمینه‌های مختلف کسب‌وکار آماده ارائه مشاوره‌های تخصصی به شماست.</p>
+            <h2 class="section-title">درباره ما</h2>
+            <p class="section-content">
+                شرکت تجاری طلایی با سابقه درخشان در زمینه ارائه خدمات مشاوره‌ای و راه‌حل‌های کسب‌وکار، 
+                همراه مطمئنی برای رشد و توسعه کسب‌وکار شماست. ما با تیمی از متخصصان مجرب و استفاده از 
+                آخرین تکنولوژی‌های روز، مسیر موفقیت را برای شما هموار می‌سازیم.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">۱۵+</div>
+                    <div class="stat-label">سال تجربه</div>
                 </div>
-                <div class="feature-card">
-                    <h2>راه‌حل‌های دیجیتال</h2>
-                    <p>با استفاده از آخرین تکنولوژی‌ها، راه‌حل‌های دیجیتال کارآمد برای کسب‌وکار شما ارائه می‌دهیم.</p>
+                <div class="stat-card">
+                    <div class="stat-number">۲۵۰+</div>
+                    <div class="stat-label">پروژه موفق</div>
                 </div>
-                <div class="feature-card">
-                    <h2>پشتیبانی مستمر</h2>
-                    <p>پشتیبانی ۲۴/۷ ما تضمین می‌کند که همیشه در کنار شما هستیم و از موفقیت شما اطمینان حاصل می‌کنیم.</p>
+                <div class="stat-card">
+                    <div class="stat-number">۹۸%</div>
+                    <div class="stat-label">رضایت مشتری</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">۵۰+</div>
+                    <div class="stat-label">همکار تجاری</div>
                 </div>
             </div>
         </div>
-        
+
         <div class="section">
-            <h1>خدمات ما</h1>
-            <p>شرکت ما با بهره‌گیری از تکنولوژی‌های روز و تیم متخصص، خدمات متنوعی را به کسب‌وکارها ارائه می‌دهد.</p>
-            
-            <h2>برندینگ و مارکتینگ</h2>
-            <p>ایجاد هویت برند قوی و استراتژی‌های مارکتینگ موثر برای رشد کسب‌وکار شما.</p>
-            
-            <h2>توسعه نرم‌افزار</h2>
-            <p>توسعه نرم‌افزارهای سفارشی با کیفیت بالا و عملکرد بهینه برای نیازهای خاص کسب‌وکار شما.</p>
+            <h2 class="section-title">خدمات ما</h2>
+            <p class="section-content">
+                خدمات متنوع ما شامل مشاوره استراتژیک، توسعه کسب‌وکار، بازاریابی دیجیتال، 
+                مدیریت پروژه و آموزش تخصصی می‌باشد. هر خدمت با بالاترین استانداردهای کیفیت 
+                و با توجه به نیازهای خاص هر کسب‌وکار ارائه می‌شود.
+            </p>
         </div>
 
         <div class="section">
-            <h1>نمونه کارها</h1>
-            <p>در طول سال‌ها فعالیت، پروژه‌های موفق متعددی را با همکاری شرکت‌های معتبر به انجام رسانده‌ایم.</p>
-            
-            <h2>همکاران تجاری</h2>
-            <p>با بیش از ۵۰ شرکت معتبر داخلی و بین‌المللی همکاری داشته‌ایم و رضایت کامل آنان را جلب کرده‌ایم.</p>
-        </div>
-
-        <div class="section">
-            <h1>تماس با ما</h1>
-            <p>آماده‌ایم تا در مورد پروژه شما صحبت کنیم و بهترین راه‌حل را ارائه دهیم. با ما در تماس باشید.</p>
-            
-            <h2>اطلاعات تماس</h2>
-            <p>شماره تماس: ۰۲۱-۱۲۳۴۵۶۷۸</p>
-            <p>ایمیل: info@company.com</p>
-            <p>آدرس: تهران، خیابان ولیعصر، پلاک ۱۲۳۴</p>
+            <h2 class="section-title">تماس با ما</h2>
+            <p class="section-content">
+                برای دریافت مشاوره رایگان و اطلاعات بیشتر درباره خدمات ما، با کارشناسان ما 
+                در تماس باشید. ما آماده پاسخگویی به سوالات شما و ارائه راه‌حل‌های مناسب 
+                برای رشد کسب‌وکارتان هستیم.
+            </p>
         </div>
     </div>
 
@@ -222,7 +256,7 @@
             // محدود کردن مقدار بین 0 تا 100
             const progress = Math.min(Math.max(scrolled, 0), 100);
             
-            // اعمال تغییرات به نوار و دایره (از بالا به پایین)
+            // اعمال تغییرات به نوار و دایره
             progressBar.style.height = progress + '%';
             progressCircle.style.top = progress + '%';
         });
