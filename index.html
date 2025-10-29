@@ -1,167 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Luxury Language Switcher</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f0f0f0;
-      font-family: sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .golden-sidebar {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 300px;
+            background: linear-gradient(to bottom, 
+                #daa520 0%, 
+                #b8860b 40%, 
+                #daa520 100%);
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+        }
 
-    .lls-container {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-    }
+        .golden-sidebar::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            background: #daa520;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(218, 165, 32, 0.8);
+        }
 
-    .lls-button {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, #111, #2c2c2c);
-      border: none;
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: box-shadow 0.3s ease;
-    }
-
-    .lls-button:hover {
-      box-shadow: 0 0 18px rgba(212, 175, 55, 0.8);
-    }
-
-    .lls-button img {
-      width: 28px;
-      height: auto;
-      border-radius: 4px;
-      box-shadow: 0 0 4px rgba(212, 175, 55, 0.4);
-    }
-
-    .lls-panel {
-      position: absolute;
-      bottom: 70px;
-      right: -5px;
-      background: rgba(0, 0, 0, 0.85);
-      border-radius: 8px;
-      padding: 10px 15px;
-      flex-direction: column;
-      min-width: 160px;
-      opacity: 0;
-      transform: translateY(10px);
-      pointer-events: none;
-    }
-
-    .lls-panel.show {
-      display: flex;
-      animation: slideUp 0.3s ease-out forwards;
-      pointer-events: auto;
-    }
-
-    .lls-panel.hide {
-      display: flex;
-      animation: slideDown 0.3s ease-in forwards;
-      pointer-events: none;
-    }
-
-    .lls-option {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #f5e6a1;
-      text-decoration: none;
-      margin: 8px 0;
-      font-size: 15px;
-      padding-left: 10px;
-      transition: color 0.3s ease;
-    }
-
-    .lls-option img {
-      width: 20px;
-      height: auto;
-      margin-right: 5px;
-      border-radius: 3px;
-    }
-
-    .lls-option:hover {
-      color: #ffffff;
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideDown {
-      from { opacity: 1; transform: translateY(0); }
-      to { opacity: 0; transform: translateY(10px); }
-    }
-
-    @media (max-width: 600px) {
-      .lls-button {
-        width: 50px;
-        height: 50px;
-      }
-      .lls-button img {
-        width: 24px;
-      }
-      .lls-option {
-        font-size: 14px;
-      }
-    }
-  </style>
+        /* محتوای نمونه برای نمایش اسکرول */
+        .content {
+            height: 2000px;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
-
-  <div class="lls-container">
-    <!-- 👇 تغییر آدرس پرچم بر اساس زبان صفحه -->
-    <button class="lls-button" id="lls-toggle">
-      <img src="https://flagcdn.com/us.svg" alt="Current Language" />
-    </button>
-
-    <div class="lls-panel" id="lls-panel">
-      <a href="index.html" class="lls-option">
-        <img src="https://flagcdn.com/us.svg" alt="US Flag"> English
-      </a>
-      <a href="de.html" class="lls-option">
-        <img src="https://flagcdn.com/de.svg" alt="German Flag"> Deutsch
-      </a>
-      <a href="fa.html" class="lls-option">
-        <img src="https://flagcdn.com/ir.svg" alt="Iran Flag"> فارسی
-      </a>
+    <div class="golden-sidebar"></div>
+    <div class="content">
+        <!-- محتوای صفحه -->
+        محتوای اصلی صفحه اینجا قرار میگیرد
     </div>
-  </div>
-
-  <script>
-    const toggle = document.getElementById('lls-toggle');
-    const panel = document.getElementById('lls-panel');
-
-    toggle.addEventListener('click', function (e) {
-      e.stopPropagation();
-      if (panel.classList.contains('show')) {
-        panel.classList.remove('show');
-        panel.classList.add('hide');
-      } else {
-        panel.classList.remove('hide');
-        panel.classList.add('show');
-      }
-    });
-
-    document.addEventListener('click', function (e) {
-      if (!panel.contains(e.target) && !toggle.contains(e.target)) {
-        if (panel.classList.contains('show')) {
-          panel.classList.remove('show');
-          panel.classList.add('hide');
-        }
-      }
-    });
-  </script>
-
 </body>
 </html>
