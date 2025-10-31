@@ -2,8 +2,8 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>هاله‌های نئونی فضایی</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>بک‌گراند نقره‌ای مدرن</title>
   <style>
     * {
       margin: 0;
@@ -13,7 +13,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #000;
+      background-color: #0a0a0a;
       overflow: hidden;
     }
 
@@ -24,33 +24,33 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
+      background: radial-gradient(ellipse at center, #1a1a1a 0%, #000 100%);
     }
 
-    .halo {
+    .silver-glow {
       position: absolute;
-      width: 120%;
-      height: 120%;
+      width: 200%;
+      height: 200%;
       background: 
-        radial-gradient(circle at 30% 40%, rgba(0, 255, 255, 0.15) 0%, transparent 60%),
-        radial-gradient(circle at 70% 60%, rgba(192, 192, 255, 0.1) 0%, transparent 60%),
-        radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
-      filter: blur(60px);
-      animation: pulse 10s ease-in-out infinite;
+        radial-gradient(circle at 30% 40%, rgba(192,192,192,0.15) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.08) 0%, transparent 60%),
+        radial-gradient(circle at 50% 80%, rgba(160,160,160,0.1) 0%, transparent 60%);
+      filter: blur(80px);
+      animation: shimmer 12s ease-in-out infinite;
       z-index: 1;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); opacity: 0.8; }
-      50% { transform: scale(1.1); opacity: 1; }
+    @keyframes shimmer {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.05) rotate(180deg); }
     }
 
-    .stars {
+    .grain {
       position: absolute;
       width: 100%;
       height: 100%;
-      background: url('https://www.transparenttextures.com/patterns/stardust.png');
-      opacity: 0.05;
+      background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+      opacity: 0.03;
       z-index: 2;
     }
 
@@ -60,31 +60,34 @@
       text-align: center;
       color: #c0c0c0;
       padding: 2rem;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(192,192,192,0.1);
     }
 
     h1 {
-      font-size: 3.5rem;
+      font-size: 3.2rem;
       margin-bottom: 1rem;
-      color: #e0e0ff;
-      text-shadow: 0 0 20px rgba(192, 192, 255, 0.6);
+      color: #e0e0e0;
+      text-shadow: 0 0 20px rgba(200, 200, 200, 0.4);
     }
 
     p {
-      font-size: 1.3rem;
-      opacity: 0.85;
+      font-size: 1.2rem;
       color: #aaa;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      opacity: 0.85;
     }
   </style>
 </head>
 <body>
   <div class="background">
-    <div class="halo"></div>
-    <div class="stars"></div>
+    <div class="silver-glow"></div>
+    <div class="grain"></div>
     <div class="content">
       <h1>سایت شما</h1>
-      <p>هاله‌های نئونی فضایی با افکت توهم نوری</p>
+      <p>بک‌گراند نقره‌ای مدرن با افکت نوری</p>
     </div>
   </div>
 </body>
