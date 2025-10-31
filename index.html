@@ -1,212 +1,76 @@
-<div class="ambient-halo-container">
-  <div class="ambient-halo-bg" aria-hidden="true">
-    <div class="halo h1"></div>
-    <div class="halo h2"></div>
-    <div class="halo h3"></div>
-    <div class="halo h4"></div>
-    <div class="halo h5"></div>
-    <div class="halo h6"></div>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>هاله‌های داینامیک نقره‌ای</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .background {
+            background: #0a0a0a;
+            position: relative;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-<style>
-  .ambient-halo-container {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  
-  .ambient-halo-bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, #0a0a0f 0%, #000000 70%);
-    overflow: hidden;
-  }
+        .background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(192, 192, 192, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(192, 192, 192, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(192, 192, 192, 0.12) 0%, transparent 50%);
+            filter: blur(40px);
+            animation: float 8s ease-in-out infinite;
+        }
 
-  /* Enhanced halo design with refined gradient */
-  .halo {
-    position: absolute;
-    border-radius: 50%;
-    transform: translate3d(0,0,0);
-    will-change: transform, opacity;
-    filter: blur(20px);
-    mix-blend-mode: screen;
-    background: 
-      radial-gradient(
-        circle at 50% 50%,
-        rgba(220, 224, 230, 0.8) 0%,
-        rgba(220, 224, 230, 0.2) 25%,
-        rgba(220, 224, 230, 0.05) 35%,
-        transparent 45%
-      ),
-      radial-gradient(
-        circle at 50% 50%,
-        rgba(180, 190, 210, 0.1) 0%,
-        rgba(180, 190, 210, 0.05) 50%,
-        transparent 70%
-      );
-    opacity: 0.22;
-  }
-
-  /* Individual halo positioning and animation */
-  .h1 { 
-    width: 38vmax; 
-    height: 38vmax; 
-    left: 5vw; 
-    top: 8vh;
-    animation: 
-      rotate-clockwise 75s linear infinite,
-      drift-xy-1 26s ease-in-out infinite alternate;
-    filter: blur(18px);
-    opacity: 0.25;
-  }
-  
-  .h2 { 
-    width: 30vmax; 
-    height: 30vmax; 
-    right: 4vw; 
-    top: 10vh;
-    animation: 
-      rotate-counterclockwise 110s linear infinite,
-      drift-x-1 32s ease-in-out infinite alternate;
-    filter: blur(22px);
-    opacity: 0.18;
-  }
-  
-  .h3 { 
-    width: 24vmax; 
-    height: 24vmax; 
-    left: 8vw; 
-    bottom: 8vh;
-    animation: 
-      rotate-clockwise 85s linear infinite,
-      drift-y-1 34s ease-in-out infinite alternate;
-    filter: blur(16px);
-    opacity: 0.16;
-  }
-  
-  .h4 { 
-    width: 20vmax; 
-    height: 20vmax; 
-    right: 10vw; 
-    bottom: 15vh;
-    animation: 
-      rotate-counterclockwise 95s linear infinite,
-      drift-xy-2 22s ease-in-out infinite alternate;
-    filter: blur(14px);
-    opacity: 0.14;
-  }
-  
-  .h5 { 
-    width: 14vmax; 
-    height: 14vmax; 
-    left: 50%; 
-    top: 15vh;
-    animation: 
-      rotate-clockwise 45s linear infinite,
-      drift-x-2 28s ease-in-out infinite alternate;
-    filter: blur(12px);
-    opacity: 0.12;
-  }
-  
-  .h6 { 
-    width: 42vmax; 
-    height: 42vmax; 
-    left: -12vw; 
-    top: 45vh;
-    animation: 
-      rotate-slow-clockwise 180s linear infinite,
-      drift-large 45s ease-in-out infinite alternate;
-    filter: blur(32px);
-    opacity: 0.10;
-  }
-
-  /* Rotation keyframes */
-  @keyframes rotate-clockwise {
-    from { transform: rotate(0deg) translateZ(0); }
-    to { transform: rotate(360deg) translateZ(0); }
-  }
-  
-  @keyframes rotate-counterclockwise {
-    from { transform: rotate(0deg) translateZ(0); }
-    to { transform: rotate(-360deg) translateZ(0); }
-  }
-  
-  @keyframes rotate-slow-clockwise {
-    from { transform: rotate(0deg) translateZ(0); }
-    to { transform: rotate(360deg) translateZ(0); }
-  }
-
-  /* Drift keyframes */
-  @keyframes drift-xy-1 {
-    from { transform: translate3d(0, 0, 0) rotate(0deg); }
-    to { transform: translate3d(8vw, 8vh, 0) rotate(5deg); }
-  }
-  
-  @keyframes drift-x-1 {
-    from { transform: translate3d(0, 0, 0) rotate(0deg); }
-    to { transform: translate3d(12vw, -3vh, 0) rotate(-3deg); }
-  }
-  
-  @keyframes drift-y-1 {
-    from { transform: translate3d(0, 0, 0) rotate(0deg); }
-    to { transform: translate3d(-7vw, 7vh, 0) rotate(4deg); }
-  }
-  
-  @keyframes drift-xy-2 {
-    from { transform: translate3d(0, 0, 0) rotate(0deg); }
-    to { transform: translate3d(9vw, 9vh, 0) rotate(-2deg); }
-  }
-  
-  @keyframes drift-x-2 {
-    from { transform: translate3d(0, 0, 0) rotate(0deg); }
-    to { transform: translate3d(14vw, -4vh, 0) rotate(2deg); }
-  }
-  
-  @keyframes drift-large {
-    from { transform: translate3d(0, 0, 0) rotate(0deg); }
-    to { transform: translate3d(20vw, -14vh, 0) rotate(-5deg); }
-  }
-
-  /* Respect user's reduced motion preference */
-  @media (prefers-reduced-motion: reduce) {
-    .halo {
-      animation: none !important;
-      transition: none !important;
-      filter: blur(8px);
-    }
-  }
-
-  /* Mobile optimization */
-  @media (max-width: 768px) {
-    .ambient-halo-bg { 
-      background: radial-gradient(ellipse at center, #0a0a0f 0%, #000000 80%);
-    }
-    
-    .halo { 
-      filter: blur(16px); 
-    }
-    
-    .h1, .h2, .h3, .h4, .h5, .h6 {
-      width: 60vmax;
-      height: 60vmax;
-    }
-    
-    .h6 { 
-      display: none; 
-    }
-  }
-
-  /* Small screen optimization */
-  @media (max-width: 480px) {
-    .h4, .h5 { 
-      display: none; 
-    }
-    
-    .halo { 
-      filter: blur(12px); 
-    }
-  }
-</style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: silver;
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="content">
+            <h1>سایت شما</h1>
+            <p>بک‌گراند هاله‌های نقره‌ای داینامیک</p>
+        </div>
+    </div>
+</body>
+</html>
