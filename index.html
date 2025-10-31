@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>بک‌گراند تجاری نقره‌ای</title>
+  <title>هاله‌های نقره‌ای مدرن</title>
   <style>
     * {
       margin: 0;
@@ -11,91 +11,97 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
+      height: 100%;
+      width: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #0a0a0a;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     .background {
-      position: relative;
-      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
       height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      background: linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+      z-index: 0;
     }
 
-    .silver-glow {
+    .halo {
       position: absolute;
-      width: 180%;
-      height: 180%;
-      background: 
-        radial-gradient(circle at 30% 40%, rgba(192,192,192,0.25) 0%, transparent 60%),
-        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.15) 0%, transparent 60%),
-        radial-gradient(circle at 50% 80%, rgba(160,160,160,0.2) 0%, transparent 60%);
-      filter: blur(100px);
-      animation: rotateGlow 30s linear infinite;
-      z-index: 1;
+      width: 20vw;
+      height: 20vw;
+      max-width: 300px;
+      max-height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(192,192,192,0.2) 0%, transparent 70%);
+      filter: blur(40px);
+      animation: float 12s ease-in-out infinite;
     }
 
-    @keyframes rotateGlow {
-      0% { transform: rotate(0deg) scale(1); }
-      50% { transform: rotate(180deg) scale(1.05); }
-      100% { transform: rotate(360deg) scale(1); }
+    .halo:nth-child(1) {
+      top: 15%;
+      left: 10%;
+      animation-delay: 0s;
     }
 
-    .metal-texture {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image: repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,0.02),
-        rgba(255,255,255,0.02) 1px,
-        transparent 1px,
-        transparent 4px
-      );
-      opacity: 0.04;
-      z-index: 2;
+    .halo:nth-child(2) {
+      top: 60%;
+      left: 70%;
+      animation-delay: 4s;
+    }
+
+    .halo:nth-child(3) {
+      top: 80%;
+      left: 25%;
+      animation-delay: 8s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+      50% { transform: translateY(-20px) scale(1.1); opacity: 1; }
     }
 
     .content {
       position: relative;
-      z-index: 3;
+      z-index: 10;
       text-align: center;
       color: #c0c0c0;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 16px;
-      box-shadow: 0 0 40px rgba(192,192,192,0.1);
+      padding: 4vh 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     h1 {
-      font-size: 3.2rem;
+      font-size: clamp(2rem, 5vw, 3.5rem);
       margin-bottom: 1rem;
       color: #e0e0e0;
-      text-shadow: 0 0 20px rgba(200, 200, 200, 0.4);
+      text-shadow: 0 0 20px rgba(200, 200, 200, 0.3);
     }
 
     p {
-      font-size: 1.2rem;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
       color: #aaa;
       opacity: 0.85;
+      max-width: 600px;
     }
   </style>
 </head>
 <body>
   <div class="background">
-    <div class="silver-glow"></div>
-    <div class="metal-texture"></div>
-    <div class="content">
-      <h1>نام برند شما</h1>
-      <p>بک‌گراند نقره‌ای مدرن برای سایت تجاری</p>
-    </div>
+    <div class="halo"></div>
+    <div class="halo"></div>
+    <div class="halo"></div>
+  </div>
+
+  <div class="content">
+    <h1>نام برند شما</h1>
+    <p>هاله‌های نقره‌ای مدرن روی زمینه تاریک، کاملاً ریسپانسیو برای همه نمایشگرها</p>
   </div>
 </body>
 </html>
