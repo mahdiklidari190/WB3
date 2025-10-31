@@ -1,115 +1,212 @@
-<!-- Paste this entire block into an Elementor HTML widget -->
-<div class="ambient-halo-bg" aria-hidden="true">
-  <div class="halo h1"></div>
-  <div class="halo h2"></div>
-  <div class="halo h3"></div>
-  <div class="halo h4"></div>
-  <div class="halo h5"></div>
-  <div class="halo h6"></div>
+<div class="ambient-halo-container">
+  <div class="ambient-halo-bg" aria-hidden="true">
+    <div class="halo h1"></div>
+    <div class="halo h2"></div>
+    <div class="halo h3"></div>
+    <div class="halo h4"></div>
+    <div class="halo h5"></div>
+    <div class="halo h6"></div>
+  </div>
 </div>
 
 <style>
-  :root{
-    --bg:#000;
-    --halo-silver: 220, 224, 230; /* RGB for silver-ish */
-    --halo-opa: 0.18; /* base opacity multiplier */
-  }
-
-  /* Container fills screen, sits behind content */
-  .ambient-halo-bg{
-    position:fixed;
-    inset:0;
-    background: var(--bg);
+  .ambient-halo-container {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
     pointer-events: none;
-    z-index: -1; /* if this doesn't go behind in your layout, set z-index lower in page CSS */
-    overflow:hidden;
+  }
+  
+  .ambient-halo-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, #0a0a0f 0%, #000000 70%);
+    overflow: hidden;
   }
 
-  /* Base halo style: donut / ring made with radial gradients + blur */
-  .halo{
-    position:absolute;
-    border-radius:50%;
+  /* Enhanced halo design with refined gradient */
+  .halo {
+    position: absolute;
+    border-radius: 50%;
     transform: translate3d(0,0,0);
     will-change: transform, opacity;
+    filter: blur(20px);
+    mix-blend-mode: screen;
+    background: 
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(220, 224, 230, 0.8) 0%,
+        rgba(220, 224, 230, 0.2) 25%,
+        rgba(220, 224, 230, 0.05) 35%,
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 50% 50%,
+        rgba(180, 190, 210, 0.1) 0%,
+        rgba(180, 190, 210, 0.05) 50%,
+        transparent 70%
+      );
+    opacity: 0.22;
+  }
+
+  /* Individual halo positioning and animation */
+  .h1 { 
+    width: 38vmax; 
+    height: 38vmax; 
+    left: 5vw; 
+    top: 8vh;
+    animation: 
+      rotate-clockwise 75s linear infinite,
+      drift-xy-1 26s ease-in-out infinite alternate;
     filter: blur(18px);
-    opacity: var(--halo-opa);
-    mix-blend-mode: screen; /* subtle lightening on black */
-    background:
-      /* thin bright inner ring */
-      radial-gradient(circle at 50% 50%,
-        rgba(var(--halo-silver),0.65) 0%,
-        rgba(var(--halo-silver),0.18) 28%,
-        rgba(var(--halo-silver),0.02) 30%,
-        transparent 31%),
-      /* outer soft wash */
-      radial-gradient(circle at 50% 50%,
-        rgba(var(--halo-silver),0.06) 38%,
-        rgba(var(--halo-silver),0.02) 60%,
-        rgba(0,0,0,0) 100%);
+    opacity: 0.25;
+  }
+  
+  .h2 { 
+    width: 30vmax; 
+    height: 30vmax; 
+    right: 4vw; 
+    top: 10vh;
+    animation: 
+      rotate-counterclockwise 110s linear infinite,
+      drift-x-1 32s ease-in-out infinite alternate;
+    filter: blur(22px);
+    opacity: 0.18;
+  }
+  
+  .h3 { 
+    width: 24vmax; 
+    height: 24vmax; 
+    left: 8vw; 
+    bottom: 8vh;
+    animation: 
+      rotate-clockwise 85s linear infinite,
+      drift-y-1 34s ease-in-out infinite alternate;
+    filter: blur(16px);
+    opacity: 0.16;
+  }
+  
+  .h4 { 
+    width: 20vmax; 
+    height: 20vmax; 
+    right: 10vw; 
+    bottom: 15vh;
+    animation: 
+      rotate-counterclockwise 95s linear infinite,
+      drift-xy-2 22s ease-in-out infinite alternate;
+    filter: blur(14px);
+    opacity: 0.14;
+  }
+  
+  .h5 { 
+    width: 14vmax; 
+    height: 14vmax; 
+    left: 50%; 
+    top: 15vh;
+    animation: 
+      rotate-clockwise 45s linear infinite,
+      drift-x-2 28s ease-in-out infinite alternate;
+    filter: blur(12px);
+    opacity: 0.12;
+  }
+  
+  .h6 { 
+    width: 42vmax; 
+    height: 42vmax; 
+    left: -12vw; 
+    top: 45vh;
+    animation: 
+      rotate-slow-clockwise 180s linear infinite,
+      drift-large 45s ease-in-out infinite alternate;
+    filter: blur(32px);
+    opacity: 0.10;
   }
 
-  /* Individual halo sizes, placements, and animations */
-  .h1{ width:36vmax; height:36vmax; left:4vw; top:6vh;
-       animation: rotate-slow 70s linear infinite, drift-xy 24s ease-in-out infinite alternate; opacity:0.22; filter: blur(16px);}
-  .h2{ width:28vmax; height:28vmax; right:3vw; top:8vh;
-       animation: rotate-slower 120s linear infinite reverse, drift-x 28s ease-in-out infinite alternate; opacity:0.16; filter: blur(20px);}
-  .h3{ width:22vmax; height:22vmax; left:6vw; bottom:6vh;
-       animation: rotate-slow 95s linear infinite, drift-y 30s ease-in-out infinite alternate; opacity:0.14; filter: blur(14px);}
-  .h4{ width:18vmax; height:18vmax; right:8vw; bottom:12vh;
-       animation: rotate-slower 110s linear infinite, drift-xy 20s ease-in-out infinite alternate; opacity:0.12; filter: blur(12px);}
-  .h5{ width:12vmax; height:12vmax; left:50%; top:12vh; transform: translateX(-50%);
-       animation: rotate-fast 48s linear infinite, drift-x 26s ease-in-out infinite alternate; opacity:0.10; filter: blur(10px);}
-  .h6{ width:40vmax; height:40vmax; left: -10vw; top: 40vh;
-       animation: rotate-very-slow 200s linear infinite, drift-large 40s ease-in-out infinite alternate; opacity:0.08; filter: blur(30px);}
-
-  /* Keyframes */
-  @keyframes rotate-slow{
-    from{ transform: rotate(0deg) translateZ(0); }
-    to  { transform: rotate(360deg) translateZ(0); }
+  /* Rotation keyframes */
+  @keyframes rotate-clockwise {
+    from { transform: rotate(0deg) translateZ(0); }
+    to { transform: rotate(360deg) translateZ(0); }
   }
-  @keyframes rotate-slower{
-    from{ transform: rotate(0deg) translateZ(0); }
-    to  { transform: rotate(-360deg) translateZ(0); }
+  
+  @keyframes rotate-counterclockwise {
+    from { transform: rotate(0deg) translateZ(0); }
+    to { transform: rotate(-360deg) translateZ(0); }
   }
-  @keyframes rotate-fast{
-    from{ transform: rotate(0deg) translateZ(0); }
-    to  { transform: rotate(360deg) translateZ(0); }
-  }
-  @keyframes rotate-very-slow{
-    from{ transform: rotate(0deg) translateZ(0); }
-    to  { transform: rotate(360deg) translateZ(0); }
+  
+  @keyframes rotate-slow-clockwise {
+    from { transform: rotate(0deg) translateZ(0); }
+    to { transform: rotate(360deg) translateZ(0); }
   }
 
-  @keyframes drift-x{
-    from{ transform: translate3d(0,0,0); }
-    to  { transform: translate3d(10vw, -2vh, 0); }
+  /* Drift keyframes */
+  @keyframes drift-xy-1 {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(8vw, 8vh, 0) rotate(5deg); }
   }
-  @keyframes drift-y{
-    from{ transform: translate3d(0,0,0); }
-    to  { transform: translate3d(-6vw, 6vh, 0); }
+  
+  @keyframes drift-x-1 {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(12vw, -3vh, 0) rotate(-3deg); }
   }
-  @keyframes drift-xy{
-    from{ transform: translate3d(0,0,0); }
-    to  { transform: translate3d(8vw, 8vh, 0); }
+  
+  @keyframes drift-y-1 {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(-7vw, 7vh, 0) rotate(4deg); }
   }
-  @keyframes drift-large{
-    from{ transform: translate3d(0,0,0); }
-    to  { transform: translate3d(18vw, -12vh, 0); }
+  
+  @keyframes drift-xy-2 {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(9vw, 9vh, 0) rotate(-2deg); }
+  }
+  
+  @keyframes drift-x-2 {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(14vw, -4vh, 0) rotate(2deg); }
+  }
+  
+  @keyframes drift-large {
+    from { transform: translate3d(0, 0, 0) rotate(0deg); }
+    to { transform: translate3d(20vw, -14vh, 0) rotate(-5deg); }
   }
 
   /* Respect user's reduced motion preference */
-  @media (prefers-reduced-motion: reduce){
-    .halo{
+  @media (prefers-reduced-motion: reduce) {
+    .halo {
       animation: none !important;
       transition: none !important;
-      filter: blur(6px);
+      filter: blur(8px);
     }
   }
 
-  /* Light performance tweak for small viewports */
-  @media (max-width:600px){
-    .ambient-halo-bg{ background: #000; }
-    .halo{ filter: blur(14px); }
-    .h6{ display:none; } /* hide largest for mobile to save paint */
+  /* Mobile optimization */
+  @media (max-width: 768px) {
+    .ambient-halo-bg { 
+      background: radial-gradient(ellipse at center, #0a0a0f 0%, #000000 80%);
+    }
+    
+    .halo { 
+      filter: blur(16px); 
+    }
+    
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+      width: 60vmax;
+      height: 60vmax;
+    }
+    
+    .h6 { 
+      display: none; 
+    }
+  }
+
+  /* Small screen optimization */
+  @media (max-width: 480px) {
+    .h4, .h5 { 
+      display: none; 
+    }
+    
+    .halo { 
+      filter: blur(12px); 
+    }
   }
 </style>
