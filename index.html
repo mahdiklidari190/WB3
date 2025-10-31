@@ -1,194 +1,115 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>هاله نقره‌ای خفن و تار</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000000;
-            overflow: hidden;
-            height: 100vh;
-        }
+<!-- Paste this entire block into an Elementor HTML widget -->
+<div class="ambient-halo-bg" aria-hidden="true">
+  <div class="halo h1"></div>
+  <div class="halo h2"></div>
+  <div class="halo h3"></div>
+  <div class="halo h4"></div>
+  <div class="halo h5"></div>
+  <div class="halo h6"></div>
+</div>
 
-        .halo-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background: 
-                /* هاله‌های اصلی نقره‌ای */
-                radial-gradient(circle at 20% 30%, 
-                    rgba(255, 255, 255, 0.25) 0%, 
-                    rgba(192, 192, 192, 0.15) 20%, 
-                    transparent 60%),
-                
-                radial-gradient(circle at 80% 20%, 
-                    rgba(255, 255, 255, 0.3) 0%, 
-                    rgba(224, 224, 224, 0.2) 15%, 
-                    transparent 55%),
-                
-                radial-gradient(circle at 40% 70%, 
-                    rgba(255, 255, 255, 0.2) 0%, 
-                    rgba(192, 192, 192, 0.1) 25%, 
-                    transparent 65%),
-                
-                radial-gradient(circle at 70% 80%, 
-                    rgba(255, 255, 255, 0.15) 0%, 
-                    rgba(208, 208, 208, 0.08) 30%, 
-                    transparent 70%),
-                
-                /* افکت درخشش نقره‌ای */
-                radial-gradient(circle at 50% 50%, 
-                    rgba(255, 255, 255, 0.1) 0%, 
-                    transparent 80%);
-            
-            filter: blur(50px) contrast(1.8) brightness(1.1);
-            animation: haloPulse 8s ease-in-out infinite;
-        }
+<style>
+  :root{
+    --bg:#000;
+    --halo-silver: 220, 224, 230; /* RGB for silver-ish */
+    --halo-opa: 0.18; /* base opacity multiplier */
+  }
 
-        /* افکت نورپردازی اضافی */
-        .halo-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 60% 40%, 
-                    rgba(255, 255, 255, 0.4) 0%, 
-                    transparent 50%),
-                radial-gradient(circle at 30% 60%, 
-                    rgba(192, 192, 192, 0.3) 0%, 
-                    transparent 45%);
-            filter: blur(80px);
-            opacity: 0.6;
-            mix-blend-mode: overlay;
-            animation: haloRotate 15s linear infinite;
-        }
+  /* Container fills screen, sits behind content */
+  .ambient-halo-bg{
+    position:fixed;
+    inset:0;
+    background: var(--bg);
+    pointer-events: none;
+    z-index: -1; /* if this doesn't go behind in your layout, set z-index lower in page CSS */
+    overflow:hidden;
+  }
 
-        /* ذرات درخشان */
-        .halo-container::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.8) 2px, transparent 3px),
-                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.6) 1px, transparent 2px),
-                radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.7) 1.5px, transparent 2.5px),
-                radial-gradient(circle at 90% 50%, rgba(255, 255, 255, 0.5) 1px, transparent 2px);
-            background-size: 200px 200px, 150px 150px, 180px 180px, 220px 220px;
-            animation: sparkleMove 20s linear infinite;
-            opacity: 0.4;
-        }
+  /* Base halo style: donut / ring made with radial gradients + blur */
+  .halo{
+    position:absolute;
+    border-radius:50%;
+    transform: translate3d(0,0,0);
+    will-change: transform, opacity;
+    filter: blur(18px);
+    opacity: var(--halo-opa);
+    mix-blend-mode: screen; /* subtle lightening on black */
+    background:
+      /* thin bright inner ring */
+      radial-gradient(circle at 50% 50%,
+        rgba(var(--halo-silver),0.65) 0%,
+        rgba(var(--halo-silver),0.18) 28%,
+        rgba(var(--halo-silver),0.02) 30%,
+        transparent 31%),
+      /* outer soft wash */
+      radial-gradient(circle at 50% 50%,
+        rgba(var(--halo-silver),0.06) 38%,
+        rgba(var(--halo-silver),0.02) 60%,
+        rgba(0,0,0,0) 100%);
+  }
 
-        @keyframes haloPulse {
-            0%, 100% { 
-                transform: scale(1) rotate(0deg);
-                filter: blur(50px) contrast(1.8) brightness(1.1);
-            }
-            50% { 
-                transform: scale(1.05) rotate(0.5deg);
-                filter: blur(55px) contrast(2) brightness(1.2);
-            }
-        }
+  /* Individual halo sizes, placements, and animations */
+  .h1{ width:36vmax; height:36vmax; left:4vw; top:6vh;
+       animation: rotate-slow 70s linear infinite, drift-xy 24s ease-in-out infinite alternate; opacity:0.22; filter: blur(16px);}
+  .h2{ width:28vmax; height:28vmax; right:3vw; top:8vh;
+       animation: rotate-slower 120s linear infinite reverse, drift-x 28s ease-in-out infinite alternate; opacity:0.16; filter: blur(20px);}
+  .h3{ width:22vmax; height:22vmax; left:6vw; bottom:6vh;
+       animation: rotate-slow 95s linear infinite, drift-y 30s ease-in-out infinite alternate; opacity:0.14; filter: blur(14px);}
+  .h4{ width:18vmax; height:18vmax; right:8vw; bottom:12vh;
+       animation: rotate-slower 110s linear infinite, drift-xy 20s ease-in-out infinite alternate; opacity:0.12; filter: blur(12px);}
+  .h5{ width:12vmax; height:12vmax; left:50%; top:12vh; transform: translateX(-50%);
+       animation: rotate-fast 48s linear infinite, drift-x 26s ease-in-out infinite alternate; opacity:0.10; filter: blur(10px);}
+  .h6{ width:40vmax; height:40vmax; left: -10vw; top: 40vh;
+       animation: rotate-very-slow 200s linear infinite, drift-large 40s ease-in-out infinite alternate; opacity:0.08; filter: blur(30px);}
 
-        @keyframes haloRotate {
-            0% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(1); }
-        }
+  /* Keyframes */
+  @keyframes rotate-slow{
+    from{ transform: rotate(0deg) translateZ(0); }
+    to  { transform: rotate(360deg) translateZ(0); }
+  }
+  @keyframes rotate-slower{
+    from{ transform: rotate(0deg) translateZ(0); }
+    to  { transform: rotate(-360deg) translateZ(0); }
+  }
+  @keyframes rotate-fast{
+    from{ transform: rotate(0deg) translateZ(0); }
+    to  { transform: rotate(360deg) translateZ(0); }
+  }
+  @keyframes rotate-very-slow{
+    from{ transform: rotate(0deg) translateZ(0); }
+    to  { transform: rotate(360deg) translateZ(0); }
+  }
 
-        @keyframes sparkleMove {
-            0% { background-position: 0 0, 0 0, 0 0, 0 0; }
-            100% { background-position: 200px 200px, 150px 150px, 180px 180px, 220px 220px; }
-        }
+  @keyframes drift-x{
+    from{ transform: translate3d(0,0,0); }
+    to  { transform: translate3d(10vw, -2vh, 0); }
+  }
+  @keyframes drift-y{
+    from{ transform: translate3d(0,0,0); }
+    to  { transform: translate3d(-6vw, 6vh, 0); }
+  }
+  @keyframes drift-xy{
+    from{ transform: translate3d(0,0,0); }
+    to  { transform: translate3d(8vw, 8vh, 0); }
+  }
+  @keyframes drift-large{
+    from{ transform: translate3d(0,0,0); }
+    to  { transform: translate3d(18vw, -12vh, 0); }
+  }
 
-        /* محتوای سایت */
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 10;
-            color: #e0e0e0;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
+  /* Respect user's reduced motion preference */
+  @media (prefers-reduced-motion: reduce){
+    .halo{
+      animation: none !important;
+      transition: none !important;
+      filter: blur(6px);
+    }
+  }
 
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ffffff, #c0c0c0, #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite alternate;
-        }
-
-        p {
-            font-size: 1.5rem;
-            opacity: 0.9;
-            color: #b0b0b0;
-        }
-
-        @keyframes titleGlow {
-            0% { 
-                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
-                background-position: 0% 50%;
-            }
-            100% { 
-                filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.7));
-                background-position: 100% 50%;
-            }
-        }
-
-        /* ناوبری نمونه */
-        .nav {
-            position: absolute;
-            top: 2rem;
-            right: 2rem;
-            z-index: 10;
-        }
-
-        .nav a {
-            color: #c0c0c0;
-            text-decoration: none;
-            margin-left: 2rem;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .nav a:hover {
-            color: #ffffff;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-        }
-    </style>
-</head>
-<body>
-    <div class="halo-container"></div>
-    
-    <nav class="nav">
-        <a href="#">خانه</a>
-        <a href="#">خدمات</a>
-        <a href="#">نمونه کارها</a>
-        <a href="#">تماس با ما</a>
-    </nav>
-    
-    <div class="content">
-        <h1>سایت شما</h1>
-        <p>بک‌گراند هاله نقره‌ای خفن و تار</p>
-    </div>
-</body>
-</html>
+  /* Light performance tweak for small viewports */
+  @media (max-width:600px){
+    .ambient-halo-bg{ background: #000; }
+    .halo{ filter: blur(14px); }
+    .h6{ display:none; } /* hide largest for mobile to save paint */
+  }
+</style>
