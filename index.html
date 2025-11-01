@@ -1,52 +1,128 @@
-<script>
-    // ایجاد ستاره‌های ثابت در پس‌زمینه
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>شهاب‌سنگ‌های نقره‌ای - بک‌گراند</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      overflow: hidden;
+      height: 100vh;
+      position: relative;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+      z-index: 2;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle 5s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+
+    .meteor {
+      position: absolute;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(192,192,192,1));
+      border-radius: 50% 50% 0 0;
+      opacity: 0;
+      filter: blur(0.5px);
+      box-shadow: 
+        0 0 8px rgba(255, 255, 255, 0.9),
+        0 0 15px rgba(192, 192, 255, 0.7),
+        0 0 25px rgba(192, 192, 255, 0.5);
+      animation: rise linear forwards;
+      transform-origin: bottom center;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) translateX(0) scale(0.3) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(var(--tx)) scale(1.8) rotate(5deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars"></div>
+  <div class="overlay"></div>
+
+  <script>
     function createStars() {
       const starsContainer = document.getElementById('stars');
       const starCount = 300;
-      
       for (let i = 0; i < starCount; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
-        
         const size = Math.random() * 3;
         star.style.width = `${size}px`;
         star.style.height = `${size}px`;
-        
         star.style.left = `${Math.random() * 100}%`;
         star.style.top = `${Math.random() * 100}%`;
-        
         star.style.animationDelay = `${Math.random() * 5}s`;
-        
         starsContainer.appendChild(star);
       }
     }
 
-    // ایجاد شهاب‌سنگ‌ها
     function createMeteor() {
       const meteor = document.createElement('div');
       meteor.classList.add('meteor');
-
-      // اندازه‌های مختلف برای شهاب‌سنگ‌ها
       const sizeOptions = [1.5, 2, 2.5, 3, 3.5];
       const size = sizeOptions[Math.floor(Math.random() * sizeOptions.length)];
       meteor.style.width = `${size}px`;
-      meteor.style.height = `${size * 3}px`; // کشیده‌تر برای ظاهر واقعی‌تر
-
-      // ایجاد مسیرهای تصادفی برای شهاب‌سنگ‌ها
+      meteor.style.height = `${size * 3}px`;
       const left = Math.random() * window.innerWidth;
       meteor.style.left = `${left}px`;
-
-      // اضافه کردن حرکت افقی تصادفی
-      const tx = (Math.random() - 0.5) * 150; // حرکت افقی بین -75 تا 75 پیکسل
+      const tx = (Math.random() - 0.5) * 150;
       meteor.style.setProperty('--tx', `${tx}px`);
-
-      // مدت زمان متفاوت برای هر شهاب‌سنگ
       const duration = 2 + Math.random() * 5;
       meteor.style.animationDuration = `${duration}s`;
-
       document.body.appendChild(meteor);
-
-      // حذف شهاب‌سنگ پس از اتمام انیمیشن
       setTimeout(() => {
         if (meteor.parentNode) {
           meteor.remove();
@@ -54,11 +130,8 @@
       }, duration * 1000);
     }
 
-    // کنترل تراکم شهاب‌سنگ‌ها
     let meteorInterval;
-
     function startMeteors() {
-      // ایجاد شهاب‌سنگ‌ها با فاصله‌های تصادفی
       meteorInterval = setInterval(createMeteor, 150 + Math.random() * 250);
     }
 
@@ -66,16 +139,12 @@
       clearInterval(meteorInterval);
     }
 
-    // مقداردهی اولیه
     function init() {
       createStars();
       startMeteors();
     }
 
-    // شروع انیمیشن پس از لود صفحه
     window.addEventListener('load', init);
-
-    // توقف موقت شهاب‌سنگ‌ها وقتی صفحه فعال نیست
     document.addEventListener('visibilitychange', function() {
       if (document.hidden) {
         stopMeteors();
@@ -84,3 +153,5 @@
       }
     });
   </script>
+</body>
+</html>
