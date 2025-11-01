@@ -184,25 +184,5 @@
         <div class="folds wave"></div>
         <div class="folds pulse"></div>
     </div>
-    
-    <script>
-        // افزودن افکت پارالکس برای عمق بیشتر
-        document.addEventListener('mousemove', function(e) {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            document.querySelector('.folds.strong').style.transform = 
-                `rotate(-10deg) translate(${-x * 15}px, ${-y * 15}px) scale(1.03)`;
-                
-            document.querySelector('.folds.soft').style.transform = 
-                `rotate(-10deg) translate(${x * 20}px, ${y * 20}px) scale(1.02)`;
-                
-            document.querySelector('.folds.highlight').style.transform = 
-                `translate(${-x * 25}px, ${-y * 25}px)`;
-                
-            document.querySelector('.folds.wave').style.transform = 
-                `rotate(5deg) translate(${x * 10}px, ${y * 10}px)`;
-        });
-    </script>
 </body>
 </html>
