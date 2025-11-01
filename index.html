@@ -1,58 +1,239 @@
-<div class="fabric-alive-bg">
-  <div class="folds strong"></div>
-  <div class="folds soft delay"></div>
-</div>
-
-<style>
-.fabric-alive-bg {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  background: #0a0a0a;
-  overflow: hidden;
-}
-
-/* چین‌های پررنگ‌تر با کنتراست بالا */
-.folds.strong {
-  position: absolute;
-  width: 300%;
-  height: 300%;
-  background: repeating-linear-gradient(
-    -30deg,
-    rgba(80,80,80,0.3) 0px,
-    rgba(0,0,0,0.8) 60px,
-    rgba(80,80,80,0.3) 120px
-  );
-  filter: blur(6px);
-  opacity: 0.4;
-  animation: aliveWave 18s ease-in-out infinite;
-  transform: rotate(-15deg);
-}
-
-/* لایه نرم‌تر برای عمق و حرکت طبیعی */
-.folds.soft {
-  position: absolute;
-  width: 300%;
-  height: 300%;
-  background: repeating-linear-gradient(
-    -30deg,
-    rgba(60,60,60,0.2) 0px,
-    rgba(0,0,0,0.5) 60px,
-    rgba(60,60,60,0.2) 120px
-  );
-  filter: blur(12px);
-  opacity: 0.25;
-  animation: aliveWave 24s ease-in-out infinite;
-  transform: rotate(-15deg);
-}
-
-.folds.delay {
-  animation-delay: 8s;
-}
-
-@keyframes aliveWave {
-  0%   { transform: rotate(-15deg) translateX(0) scale(1); }
-  50%  { transform: rotate(-15deg) translateX(-3%) scale(1.05); }
-  100% { transform: rotate(-15deg) translateX(0) scale(1); }
-}
-</style>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بک‌گراند پارچه‌ای پویا</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #f0f0f0;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(90deg, #e0e0e0, #a0a0a0, #e0e0e0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shimmer 3s infinite linear;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .fabric-alive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        /* لایه‌های پارچه */
+        .folds {
+            position: absolute;
+            border-radius: 2px;
+        }
+        
+        .folds.strong {
+            width: 300%;
+            height: 300%;
+            background: 
+                repeating-linear-gradient(
+                    -25deg,
+                    rgba(120, 120, 120, 0.4) 0px,
+                    rgba(20, 20, 20, 0.9) 70px,
+                    rgba(120, 120, 120, 0.4) 140px
+                );
+            filter: blur(5px) contrast(1.2);
+            opacity: 0.5;
+            animation: aliveWave 16s ease-in-out infinite;
+            transform: rotate(-12deg);
+        }
+        
+        .folds.soft {
+            width: 300%;
+            height: 300%;
+            background: 
+                repeating-linear-gradient(
+                    -25deg,
+                    rgba(90, 90, 90, 0.25) 0px,
+                    rgba(10, 10, 10, 0.6) 70px,
+                    rgba(90, 90, 90, 0.25) 140px
+                );
+            filter: blur(10px) contrast(1.1);
+            opacity: 0.3;
+            animation: aliveWave 22s ease-in-out infinite;
+            transform: rotate(-12deg);
+        }
+        
+        .folds.delay {
+            animation-delay: 6s;
+        }
+        
+        /* لایه‌های اضافی برای عمق بیشتر */
+        .folds.texture {
+            width: 400%;
+            height: 400%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(150, 150, 150, 0.1) 2px, transparent 2px),
+                radial-gradient(circle at 70% 70%, rgba(150, 150, 150, 0.1) 1px, transparent 1px);
+            background-size: 80px 80px, 40px 40px;
+            animation: textureMove 40s linear infinite;
+            opacity: 0.15;
+        }
+        
+        .folds.highlight {
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            animation: highlightMove 25s ease-in-out infinite alternate;
+            opacity: 0.2;
+        }
+        
+        /* انیمیشن‌ها */
+        @keyframes aliveWave {
+            0%   { transform: rotate(-12deg) translateX(0) translateY(0) scale(1); }
+            33%  { transform: rotate(-12deg) translateX(-2%) translateY(1%) scale(1.02); }
+            66%  { transform: rotate(-12deg) translateX(1%) translateY(-1%) scale(0.98); }
+            100% { transform: rotate(-12deg) translateX(0) translateY(0) scale(1); }
+        }
+        
+        @keyframes textureMove {
+            0%   { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+        
+        @keyframes highlightMove {
+            0%   { transform: translateX(-10%) translateY(-10%); }
+            100% { transform: translateX(10%) translateY(10%); }
+        }
+        
+        @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        /* دکمه‌ها */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background: rgba(40, 40, 40, 0.7);
+            color: #e0e0e0;
+            border: 1px solid rgba(100, 100, 100, 0.5);
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn:hover {
+            background: rgba(60, 60, 60, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* حالت پاسخگو */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="fabric-alive-bg">
+        <div class="folds strong"></div>
+        <div class="folds soft delay"></div>
+        <div class="folds texture"></div>
+        <div class="folds highlight"></div>
+    </div>
+    
+    <div class="container">
+        <h1>بک‌گراند پارچه‌ای پویا</h1>
+        <p>این یک طراحی پیشرفته از بک‌گراند پارچه‌ای است که با استفاده از CSS و انیمیشن‌های روان ایجاد شده است. حرکات طبیعی و بافت عمیق، جلوه‌ای زنده و جذاب به طرح می‌بخشد.</p>
+        
+        <div class="buttons">
+            <button class="btn">آموزش طراحی</button>
+            <button class="btn">مشاهده نمونه‌ها</button>
+            <button class="btn">دانلود کد</button>
+        </div>
+    </div>
+    
+    <script>
+        // اسکریپت ساده برای افزودن تعامل
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+        
+        // افزودن افکت پارالکس برای عمق بیشتر
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.querySelector('.folds.strong').style.transform = 
+                `rotate(-12deg) translate(${-x * 10}px, ${-y * 10}px) scale(1.02)`;
+                
+            document.querySelector('.folds.soft').style.transform = 
+                `rotate(-12deg) translate(${x * 15}px, ${y * 15}px) scale(1.01)`;
+                
+            document.querySelector('.folds.highlight').style.transform = 
+                `translate(${-x * 20}px, ${-y * 20}px)`;
+        });
+    </script>
+</body>
+</html>
