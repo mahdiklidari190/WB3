@@ -1,128 +1,75 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>بک‌گراند نقره‌ای و مشکی لطیف</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>شهاب‌سنگ‌های نقره‌ای</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
+      margin: 0;
+      background: black;
       overflow: hidden;
-      background: #000;
-      filter: blur(2px) brightness(1.1); /* تاری کلی و روشنایی ملایم */
     }
 
-    .fabric-alive-bg {
+    .overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 30%, #0f0f0f 70%, #050505 100%);
-      overflow: hidden;
+      backdrop-filter: blur(4px);
+      z-index: 2;
     }
 
-    .folds {
+    .meteor {
       position: absolute;
-      border-radius: 2px;
+      bottom: 0;
+      width: 2px;
+      height: 2px;
+      background: silver;
+      border-radius: 50%;
+      opacity: 0;
+      animation: rise 4s linear infinite;
     }
 
-    .folds.strong {
-      width: 400%;
-      height: 400%;
-      background:
-        repeating-linear-gradient(
-          -22deg,
-          rgba(192, 192, 192, 0.25) 0px,
-          rgba(30, 30, 30, 0.9) 80px,
-          rgba(192, 192, 192, 0.25) 160px
-        ),
-        repeating-linear-gradient(
-          22deg,
-          rgba(160, 160, 160, 0.15) 0px,
-          rgba(20, 20, 20, 0.7) 120px,
-          rgba(160, 160, 160, 0.15) 240px
-        );
-      filter: blur(3px) contrast(1.3);
-      opacity: 0.6;
-      animation: aliveWave 20s ease-in-out infinite, breathing 15s ease-in-out infinite;
-      transform: rotate(-10deg);
-      transform-origin: center;
-    }
-
-    .folds.soft {
-      width: 400%;
-      height: 400%;
-      background:
-        repeating-linear-gradient(
-          -22deg,
-          rgba(180, 180, 180, 0.15) 0px,
-          rgba(15, 15, 15, 0.6) 80px,
-          rgba(180, 180, 180, 0.15) 160px
-        );
-      filter: blur(8px) contrast(1.2);
-      opacity: 0.4;
-      animation: aliveWave 25s ease-in-out infinite, breathing 18s ease-in-out infinite;
-      transform: rotate(-10deg);
-      transform-origin: center;
-    }
-
-    .folds.delay {
-      animation-delay: 7s;
-    }
-
-    .folds.wave {
-      width: 350%;
-      height: 350%;
-      background:
-        repeating-linear-gradient(
-          45deg,
-          rgba(160, 160, 160, 0.1) 0px,
-          rgba(40, 40, 40, 0.5) 100px,
-          rgba(160, 160, 160, 0.1) 200px
-        );
-      filter: blur(5px);
-      opacity: 0.2;
-      animation: waveMove 40s linear infinite, rotateSlow 120s linear infinite;
-      transform: rotate(5deg);
-    }
-
-    @keyframes aliveWave {
-      0%   { transform: rotate(-10deg) translateX(0) translateY(0) scale(1); }
-      20%  { transform: rotate(-10deg) translateX(-3%) translateY(1%) scale(1.03); }
-      40%  { transform: rotate(-10deg) translateX(2%) translateY(-2%) scale(0.98); }
-      60%  { transform: rotate(-10deg) translateX(-1%) translateY(3%) scale(1.01); }
-      80%  { transform: rotate(-10deg) translateX(3%) translateY(-1%) scale(0.99); }
-      100% { transform: rotate(-10deg) translateX(0) translateY(0) scale(1); }
-    }
-
-    @keyframes breathing {
-      0%   { opacity: 0.6; }
-      50%  { opacity: 0.8; }
-      100% { opacity: 0.6; }
-    }
-
-    @keyframes waveMove {
-      0%   { transform: rotate(5deg) translateX(0); }
-      100% { transform: rotate(5deg) translateX(-10%); }
-    }
-
-    @keyframes rotateSlow {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.5);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="fabric-alive-bg">
-    <div class="folds strong"></div>
-    <div class="folds soft delay"></div>
-    <div class="folds wave"></div>
-  </div>
+  <div class="overlay"></div>
+
+  <script>
+    const createMeteor = () => {
+      const meteor = document.createElement('div');
+      meteor.classList.add('meteor');
+      const size = Math.random() * 2 + 1; // بین 1 تا 3 پیکسل
+      meteor.style.width = `${size}px`;
+      meteor.style.height = `${size}px`;
+      meteor.style.left = `${Math.random() * 100}vw`;
+      meteor.style.animationDuration = `${2 + Math.random() * 3}s`;
+      document.body.appendChild(meteor);
+
+      setTimeout(() => {
+        meteor.remove();
+      }, 5000);
+    };
+
+    setInterval(createMeteor, 100);
+  </script>
 </body>
 </html>
