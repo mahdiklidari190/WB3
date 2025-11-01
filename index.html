@@ -1,42 +1,51 @@
-<div class="fabric-background">
-  <div class="fold-layer"></div>
-  <div class="fold-layer delay"></div>
+<div class="fabric-luxury-bg">
+  <div class="folds-layer layer1"></div>
+  <div class="folds-layer layer2"></div>
+  <div class="folds-layer layer3"></div>
 </div>
 
 <style>
-.fabric-background {
+.fabric-luxury-bg {
   position: relative;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(to bottom, #0a0a0a, #000000);
+  background: #0a0a0a;
   overflow: hidden;
 }
 
-/* لایه‌های چین‌دار با حرکت نرم */
-.fold-layer {
+/* لایه‌های چین‌دار با گرادیان مورب و بلور */
+.folds-layer {
   position: absolute;
-  width: 200%;
-  height: 200%;
+  width: 300%;
+  height: 300%;
   background: repeating-linear-gradient(
-    -45deg,
-    rgba(30,30,30,0.2) 0px,
-    rgba(0,0,0,0.4) 40px,
-    rgba(30,30,30,0.2) 80px
+    -30deg,
+    rgba(40,40,40,0.1) 0px,
+    rgba(0,0,0,0.3) 60px,
+    rgba(40,40,40,0.1) 120px
   );
-  animation: waveFold 20s ease-in-out infinite;
-  transform: rotate(10deg);
-  opacity: 0.3;
-  filter: blur(8px);
+  filter: blur(12px);
+  opacity: 0.25;
+  animation: driftFold 30s ease-in-out infinite;
+  transform: rotate(-15deg);
 }
 
-.fold-layer.delay {
+/* لایه‌های با تأخیر و شدت متفاوت برای عمق بیشتر */
+.layer2 {
   animation-delay: 10s;
-  opacity: 0.2;
+  opacity: 0.18;
+  filter: blur(20px);
 }
 
-@keyframes waveFold {
-  0%   { transform: rotate(10deg) translateX(0); }
-  50%  { transform: rotate(10deg) translateX(-5%); }
-  100% { transform: rotate(10deg) translateX(0); }
+.layer3 {
+  animation-delay: 20s;
+  opacity: 0.12;
+  filter: blur(30px);
+}
+
+@keyframes driftFold {
+  0%   { transform: rotate(-15deg) translateX(0); }
+  50%  { transform: rotate(-15deg) translateX(-3%); }
+  100% { transform: rotate(-15deg) translateX(0); }
 }
 </style>
