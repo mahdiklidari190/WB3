@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بک‌گراند پارچه‌ای پویا</title>
+    <title>بک‌گراند پارچه‌ای زنده</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -15,6 +16,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #f0f0f0;
             overflow: hidden;
+            background: #000;
         }
         
         .container {
@@ -25,29 +27,30 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 100;
             text-align: center;
             padding: 20px;
         }
         
         h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(90deg, #e0e0e0, #a0a0a0, #e0e0e0);
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(90deg, #e6e6e6, #b0b0b0, #e6e6e6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             background-size: 200% auto;
-            animation: shimmer 3s infinite linear;
+            animation: shimmer 4s infinite linear;
         }
         
         p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+            font-size: 1.3rem;
+            max-width: 700px;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+            color: #d0d0d0;
         }
         
         .fabric-alive-bg {
@@ -56,90 +59,157 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 30%, #0f0f0f 70%, #050505 100%);
             overflow: hidden;
             z-index: 1;
         }
         
-        /* لایه‌های پارچه */
+        /* لایه‌های پارچه اصلی */
         .folds {
             position: absolute;
             border-radius: 2px;
         }
         
         .folds.strong {
-            width: 300%;
-            height: 300%;
-            background: 
-                repeating-linear-gradient(
-                    -25deg,
-                    rgba(120, 120, 120, 0.4) 0px,
-                    rgba(20, 20, 20, 0.9) 70px,
-                    rgba(120, 120, 120, 0.4) 140px
-                );
-            filter: blur(5px) contrast(1.2);
-            opacity: 0.5;
-            animation: aliveWave 16s ease-in-out infinite;
-            transform: rotate(-12deg);
-        }
-        
-        .folds.soft {
-            width: 300%;
-            height: 300%;
-            background: 
-                repeating-linear-gradient(
-                    -25deg,
-                    rgba(90, 90, 90, 0.25) 0px,
-                    rgba(10, 10, 10, 0.6) 70px,
-                    rgba(90, 90, 90, 0.25) 140px
-                );
-            filter: blur(10px) contrast(1.1);
-            opacity: 0.3;
-            animation: aliveWave 22s ease-in-out infinite;
-            transform: rotate(-12deg);
-        }
-        
-        .folds.delay {
-            animation-delay: 6s;
-        }
-        
-        /* لایه‌های اضافی برای عمق بیشتر */
-        .folds.texture {
             width: 400%;
             height: 400%;
             background: 
-                radial-gradient(circle at 30% 30%, rgba(150, 150, 150, 0.1) 2px, transparent 2px),
-                radial-gradient(circle at 70% 70%, rgba(150, 150, 150, 0.1) 1px, transparent 1px);
-            background-size: 80px 80px, 40px 40px;
-            animation: textureMove 40s linear infinite;
-            opacity: 0.15;
+                repeating-linear-gradient(
+                    -22deg,
+                    rgba(140, 140, 140, 0.5) 0px,
+                    rgba(30, 30, 30, 0.95) 80px,
+                    rgba(140, 140, 140, 0.5) 160px
+                ),
+                repeating-linear-gradient(
+                    22deg,
+                    rgba(100, 100, 100, 0.3) 0px,
+                    rgba(20, 20, 20, 0.8) 120px,
+                    rgba(100, 100, 100, 0.3) 240px
+                );
+            filter: blur(4px) contrast(1.3);
+            opacity: 0.6;
+            animation: aliveWave 20s ease-in-out infinite, breathing 15s ease-in-out infinite;
+            transform: rotate(-10deg);
+            transform-origin: center;
         }
         
-        .folds.highlight {
-            width: 200%;
-            height: 200%;
+        .folds.soft {
+            width: 400%;
+            height: 400%;
             background: 
-                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
-            animation: highlightMove 25s ease-in-out infinite alternate;
+                repeating-linear-gradient(
+                    -22deg,
+                    rgba(110, 110, 110, 0.35) 0px,
+                    rgba(15, 15, 15, 0.7) 80px,
+                    rgba(110, 110, 110, 0.35) 160px
+                );
+            filter: blur(12px) contrast(1.2);
+            opacity: 0.4;
+            animation: aliveWave 25s ease-in-out infinite, breathing 18s ease-in-out infinite;
+            transform: rotate(-10deg);
+            transform-origin: center;
+        }
+        
+        .folds.delay {
+            animation-delay: 7s;
+        }
+        
+        /* لایه‌های اضافی برای عمق و حرکت */
+        .folds.texture {
+            width: 500%;
+            height: 500%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(180, 180, 180, 0.15) 2px, transparent 2px),
+                radial-gradient(circle at 70% 70%, rgba(180, 180, 180, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 50% 20%, rgba(180, 180, 180, 0.12) 1.5px, transparent 1.5px);
+            background-size: 100px 100px, 60px 60px, 80px 80px;
+            animation: textureMove 45s linear infinite, float 30s ease-in-out infinite alternate;
             opacity: 0.2;
         }
         
-        /* انیمیشن‌ها */
+        .folds.highlight {
+            width: 300%;
+            height: 300%;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08) 0%, transparent 70%),
+                radial-gradient(ellipse at 30% 70%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 30%, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
+            animation: highlightMove 35s ease-in-out infinite alternate, pulse 25s ease-in-out infinite;
+            opacity: 0.25;
+            mix-blend-mode: overlay;
+        }
+        
+        /* لایه‌های جدید برای حرکت بیشتر */
+        .folds.wave {
+            width: 350%;
+            height: 350%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(120, 120, 120, 0.2) 0px,
+                    rgba(40, 40, 40, 0.6) 100px,
+                    rgba(120, 120, 120, 0.2) 200px
+                );
+            filter: blur(8px);
+            opacity: 0.3;
+            animation: waveMove 40s linear infinite, rotateSlow 120s linear infinite;
+            transform: rotate(5deg);
+        }
+        
+        .folds.pulse {
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle, rgba(150, 150, 150, 0.1) 0%, transparent 70%);
+            animation: pulse 20s ease-in-out infinite, float 25s ease-in-out infinite alternate;
+            opacity: 0.15;
+        }
+        
+        /* انیمیشن‌های پیچیده */
         @keyframes aliveWave {
-            0%   { transform: rotate(-12deg) translateX(0) translateY(0) scale(1); }
-            33%  { transform: rotate(-12deg) translateX(-2%) translateY(1%) scale(1.02); }
-            66%  { transform: rotate(-12deg) translateX(1%) translateY(-1%) scale(0.98); }
-            100% { transform: rotate(-12deg) translateX(0) translateY(0) scale(1); }
+            0%   { transform: rotate(-10deg) translateX(0) translateY(0) scale(1); }
+            20%  { transform: rotate(-10deg) translateX(-3%) translateY(1%) scale(1.03); }
+            40%  { transform: rotate(-10deg) translateX(2%) translateY(-2%) scale(0.98); }
+            60%  { transform: rotate(-10deg) translateX(-1%) translateY(3%) scale(1.01); }
+            80%  { transform: rotate(-10deg) translateX(3%) translateY(-1%) scale(0.99); }
+            100% { transform: rotate(-10deg) translateX(0) translateY(0) scale(1); }
+        }
+        
+        @keyframes breathing {
+            0%   { opacity: 0.6; }
+            50%  { opacity: 0.8; }
+            100% { opacity: 0.6; }
         }
         
         @keyframes textureMove {
             0%   { transform: translateX(0) translateY(0); }
-            100% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(-100px) translateY(-100px); }
         }
         
         @keyframes highlightMove {
-            0%   { transform: translateX(-10%) translateY(-10%); }
-            100% { transform: translateX(10%) translateY(10%); }
+            0%   { transform: translateX(-15%) translateY(-15%); }
+            100% { transform: translateX(15%) translateY(15%); }
+        }
+        
+        @keyframes waveMove {
+            0%   { transform: rotate(5deg) translateX(0); }
+            100% { transform: rotate(5deg) translateX(-10%); }
+        }
+        
+        @keyframes rotateSlow {
+            0%   { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes float {
+            0%   { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0%   { transform: scale(1); opacity: 0.15; }
+            50%  { transform: scale(1.1); opacity: 0.25; }
+            100% { transform: scale(1); opacity: 0.15; }
         }
         
         @keyframes shimmer {
@@ -150,43 +220,95 @@
         /* دکمه‌ها */
         .buttons {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-top: 30px;
         }
         
         .btn {
-            padding: 12px 25px;
-            background: rgba(40, 40, 40, 0.7);
+            padding: 14px 30px;
+            background: rgba(50, 50, 50, 0.6);
             color: #e0e0e0;
-            border: 1px solid rgba(100, 100, 100, 0.5);
-            border-radius: 30px;
-            font-size: 1rem;
+            border: 1px solid rgba(120, 120, 120, 0.4);
+            border-radius: 35px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .btn:hover {
-            background: rgba(60, 60, 60, 0.8);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(70, 70, 70, 0.7);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border-color: rgba(160, 160, 160, 0.6);
+        }
+        
+        /* کنترل‌ها */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 200;
+        }
+        
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(60, 60, 60, 0.7);
+            color: #e0e0e0;
+            border: 1px solid rgba(120, 120, 120, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .control-btn:hover {
+            background: rgba(80, 80, 80, 0.8);
+            transform: scale(1.1);
         }
         
         /* حالت پاسخگو */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
             
             p {
-                font-size: 1rem;
+                font-size: 1.1rem;
                 padding: 0 15px;
             }
             
             .buttons {
                 flex-direction: column;
-                gap: 10px;
+                gap: 12px;
             }
+            
+            .controls {
+                bottom: 20px;
+                left: 20px;
+            }
+        }
+        
+        /* اطلاعات پایین صفحه */
+        .info {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            z-index: 200;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
@@ -196,28 +318,87 @@
         <div class="folds soft delay"></div>
         <div class="folds texture"></div>
         <div class="folds highlight"></div>
+        <div class="folds wave"></div>
+        <div class="folds pulse"></div>
     </div>
     
     <div class="container">
-        <h1>بک‌گراند پارچه‌ای پویا</h1>
-        <p>این یک طراحی پیشرفته از بک‌گراند پارچه‌ای است که با استفاده از CSS و انیمیشن‌های روان ایجاد شده است. حرکات طبیعی و بافت عمیق، جلوه‌ای زنده و جذاب به طرح می‌بخشد.</p>
+        <h1>پارچه زنده</h1>
+        <p>این یک بک‌گراند پارچه‌ای فوق‌پویا است که با استفاده از CSS پیشرفته و انیمیشن‌های پیچیده ایجاد شده است. حرکات طبیعی و بافت عمیق، جلوه‌ای کاملاً زنده و ارگانیک به طرح می‌بخشد.</p>
         
         <div class="buttons">
-            <button class="btn">آموزش طراحی</button>
-            <button class="btn">مشاهده نمونه‌ها</button>
-            <button class="btn">دانلود کد</button>
+            <button class="btn">
+                <i class="fas fa-play"></i>
+                شروع انیمیشن
+            </button>
+            <button class="btn">
+                <i class="fas fa-palette"></i>
+                تغییر رنگ
+            </button>
+            <button class="btn">
+                <i class="fas fa-download"></i>
+                دانلود کد
+            </button>
         </div>
     </div>
     
+    <div class="controls">
+        <div class="control-btn" id="speedUp">
+            <i class="fas fa-forward"></i>
+        </div>
+        <div class="control-btn" id="speedDown">
+            <i class="fas fa-backward"></i>
+        </div>
+        <div class="control-btn" id="pausePlay">
+            <i class="fas fa-pause"></i>
+        </div>
+    </div>
+    
+    <div class="info">
+        طراحی شده با CSS | پارچه پویا
+    </div>
+    
     <script>
-        // اسکریپت ساده برای افزودن تعامل
-        document.querySelectorAll('.btn').forEach(button => {
-            button.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
+        // کنترل سرعت انیمیشن
+        const speedUp = document.getElementById('speedUp');
+        const speedDown = document.getElementById('speedDown');
+        const pausePlay = document.getElementById('pausePlay');
+        const folds = document.querySelectorAll('.folds');
+        let isPaused = false;
+        
+        speedUp.addEventListener('click', function() {
+            folds.forEach(fold => {
+                const currentAnimation = getComputedStyle(fold).animationDuration;
+                const currentSpeed = parseFloat(currentAnimation);
+                if (currentSpeed > 2) {
+                    fold.style.animationDuration = (currentSpeed - 2) + 's';
+                }
             });
+        });
+        
+        speedDown.addEventListener('click', function() {
+            folds.forEach(fold => {
+                const currentAnimation = getComputedStyle(fold).animationDuration;
+                const currentSpeed = parseFloat(currentAnimation);
+                fold.style.animationDuration = (currentSpeed + 2) + 's';
+            });
+        });
+        
+        pausePlay.addEventListener('click', function() {
+            isPaused = !isPaused;
+            const icon = this.querySelector('i');
+            
+            if (isPaused) {
+                folds.forEach(fold => {
+                    fold.style.animationPlayState = 'paused';
+                });
+                icon.className = 'fas fa-play';
+            } else {
+                folds.forEach(fold => {
+                    fold.style.animationPlayState = 'running';
+                });
+                icon.className = 'fas fa-pause';
+            }
         });
         
         // افزودن افکت پارالکس برای عمق بیشتر
@@ -226,13 +407,26 @@
             const y = e.clientY / window.innerHeight;
             
             document.querySelector('.folds.strong').style.transform = 
-                `rotate(-12deg) translate(${-x * 10}px, ${-y * 10}px) scale(1.02)`;
+                `rotate(-10deg) translate(${-x * 15}px, ${-y * 15}px) scale(1.03)`;
                 
             document.querySelector('.folds.soft').style.transform = 
-                `rotate(-12deg) translate(${x * 15}px, ${y * 15}px) scale(1.01)`;
+                `rotate(-10deg) translate(${x * 20}px, ${y * 20}px) scale(1.02)`;
                 
             document.querySelector('.folds.highlight').style.transform = 
-                `translate(${-x * 20}px, ${-y * 20}px)`;
+                `translate(${-x * 25}px, ${-y * 25}px)`;
+                
+            document.querySelector('.folds.wave').style.transform = 
+                `rotate(5deg) translate(${x * 10}px, ${y * 10}px)`;
+        });
+        
+        // انیمیشن دکمه‌ها
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
         });
     </script>
 </body>
