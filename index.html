@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>شهاب‌سنگ‌های نقره‌ای</title>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       background: black;
       overflow: hidden;
+      height: 100vh;
+      position: relative;
     }
 
     .overlay {
-      position: fixed;
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
@@ -24,12 +31,10 @@
     .meteor {
       position: absolute;
       bottom: 0;
-      width: 2px;
-      height: 2px;
       background: silver;
       border-radius: 50%;
       opacity: 0;
-      animation: rise 4s linear infinite;
+      animation: rise 4s linear forwards;
     }
 
     @keyframes rise {
@@ -54,20 +59,26 @@
   <div class="overlay"></div>
 
   <script>
-    const createMeteor = () => {
+    function createMeteor() {
       const meteor = document.createElement('div');
       meteor.classList.add('meteor');
+
       const size = Math.random() * 2 + 1; // بین 1 تا 3 پیکسل
       meteor.style.width = `${size}px`;
       meteor.style.height = `${size}px`;
-      meteor.style.left = `${Math.random() * 100}vw`;
-      meteor.style.animationDuration = `${2 + Math.random() * 3}s`;
+
+      const left = Math.random() * window.innerWidth;
+      meteor.style.left = `${left}px`;
+
+      const duration = 2 + Math.random() * 3;
+      meteor.style.animationDuration = `${duration}s`;
+
       document.body.appendChild(meteor);
 
       setTimeout(() => {
         meteor.remove();
-      }, 5000);
-    };
+      }, duration * 1000);
+    }
 
     setInterval(createMeteor, 100);
   </script>
