@@ -1,60 +1,148 @@
-body {
-    overflow: hidden;
-    background: #000; /* مشکی خالص */
-}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بک‌گراند طلایی و مشکی پویا</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-.fabric-alive-bg {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 30%, #0f0f0f 70%, #050505 100%);
-}
+    body {
+      overflow: hidden;
+      background: #000; /* مشکی خالص */
+    }
 
-/* لایه طلایی قوی */
-.folds.strong {
-    background: 
+    .fabric-alive-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 30%, #0f0f0f 70%, #050505 100%);
+      overflow: hidden;
+    }
+
+    .folds {
+      position: absolute;
+      border-radius: 2px;
+    }
+
+    .folds.strong {
+      width: 400%;
+      height: 400%;
+      background:
         repeating-linear-gradient(
-            -22deg,
-            rgba(255, 215, 0, 0.3) 0px, /* طلایی روشن */
-            rgba(30, 30, 30, 0.95) 80px,
-            rgba(255, 215, 0, 0.3) 160px
+          -22deg,
+          rgba(255, 215, 0, 0.3) 0px,
+          rgba(30, 30, 30, 0.95) 80px,
+          rgba(255, 215, 0, 0.3) 160px
         ),
         repeating-linear-gradient(
-            22deg,
-            rgba(192, 192, 192, 0.2) 0px, /* نقره‌ای ملایم */
-            rgba(20, 20, 20, 0.8) 120px,
-            rgba(192, 192, 192, 0.2) 240px
+          22deg,
+          rgba(192, 192, 192, 0.2) 0px,
+          rgba(20, 20, 20, 0.8) 120px,
+          rgba(192, 192, 192, 0.2) 240px
         );
-    filter: blur(4px) contrast(1.4) brightness(1.1);
-    opacity: 0.7;
-}
+      filter: blur(4px) contrast(1.4) brightness(1.1);
+      opacity: 0.7;
+      animation: aliveWave 20s ease-in-out infinite, breathing 15s ease-in-out infinite;
+      transform: rotate(-10deg);
+      transform-origin: center;
+    }
 
-/* لایه نرم طلایی */
-.folds.soft {
-    background: 
+    .folds.soft {
+      width: 400%;
+      height: 400%;
+      background:
         repeating-linear-gradient(
-            -22deg,
-            rgba(255, 215, 0, 0.2) 0px,
-            rgba(15, 15, 15, 0.7) 80px,
-            rgba(255, 215, 0, 0.2) 160px
+          -22deg,
+          rgba(255, 215, 0, 0.2) 0px,
+          rgba(15, 15, 15, 0.7) 80px,
+          rgba(255, 215, 0, 0.2) 160px
         );
-    filter: blur(10px) contrast(1.3);
-    opacity: 0.5;
-}
+      filter: blur(10px) contrast(1.3);
+      opacity: 0.5;
+      animation: aliveWave 25s ease-in-out infinite, breathing 18s ease-in-out infinite;
+      transform: rotate(-10deg);
+      transform-origin: center;
+    }
 
-/* لایه موج نقره‌ای */
-.folds.wave {
-    background: 
+    .folds.delay {
+      animation-delay: 7s;
+    }
+
+    .folds.wave {
+      width: 350%;
+      height: 350%;
+      background:
         repeating-linear-gradient(
-            45deg,
-            rgba(192, 192, 192, 0.15) 0px,
-            rgba(40, 40, 40, 0.6) 100px,
-            rgba(192, 192, 192, 0.15) 200px
+          45deg,
+          rgba(192, 192, 192, 0.15) 0px,
+          rgba(40, 40, 40, 0.6) 100px,
+          rgba(192, 192, 192, 0.15) 200px
         );
-    filter: blur(6px);
-    opacity: 0.25;
-}
+      filter: blur(6px);
+      opacity: 0.25;
+      animation: waveMove 40s linear infinite, rotateSlow 120s linear infinite;
+      transform: rotate(5deg);
+    }
 
-/* لایه پالس درخشان */
-.folds.pulse {
-    background: 
+    .folds.pulse {
+      width: 200%;
+      height: 200%;
+      background:
         radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-    opacity: 0.2;
-}
+      animation: pulse 20s ease-in-out infinite, float 25s ease-in-out infinite alternate;
+      opacity: 0.2;
+    }
+
+    @keyframes aliveWave {
+      0%   { transform: rotate(-10deg) translateX(0) translateY(0) scale(1); }
+      20%  { transform: rotate(-10deg) translateX(-3%) translateY(1%) scale(1.03); }
+      40%  { transform: rotate(-10deg) translateX(2%) translateY(-2%) scale(0.98); }
+      60%  { transform: rotate(-10deg) translateX(-1%) translateY(3%) scale(1.01); }
+      80%  { transform: rotate(-10deg) translateX(3%) translateY(-1%) scale(0.99); }
+      100% { transform: rotate(-10deg) translateX(0) translateY(0) scale(1); }
+    }
+
+    @keyframes breathing {
+      0%   { opacity: 0.6; }
+      50%  { opacity: 0.8; }
+      100% { opacity: 0.6; }
+    }
+
+    @keyframes waveMove {
+      0%   { transform: rotate(5deg) translateX(0); }
+      100% { transform: rotate(5deg) translateX(-10%); }
+    }
+
+    @keyframes rotateSlow {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0); }
+      100% { transform: translateY(-20px); }
+    }
+
+    @keyframes pulse {
+      0%   { transform: scale(1); opacity: 0.15; }
+      50%  { transform: scale(1.1); opacity: 0.25; }
+      100% { transform: scale(1); opacity: 0.15; }
+    }
+  </style>
+</head>
+<body>
+  <div class="fabric-alive-bg">
+    <div class="folds strong"></div>
+    <div class="folds soft delay"></div>
+    <div class="folds wave"></div>
+    <div class="folds pulse"></div>
+  </div>
+</body>
+</html>
