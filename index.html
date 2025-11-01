@@ -1,11 +1,10 @@
-<div class="fabric-luxury-bg">
-  <div class="folds-layer layer1"></div>
-  <div class="folds-layer layer2"></div>
-  <div class="folds-layer layer3"></div>
+<div class="fabric-alive-bg">
+  <div class="folds strong"></div>
+  <div class="folds soft delay"></div>
 </div>
 
 <style>
-.fabric-luxury-bg {
+.fabric-alive-bg {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -13,39 +12,47 @@
   overflow: hidden;
 }
 
-/* لایه‌های چین‌دار با گرادیان مورب و بلور */
-.folds-layer {
+/* چین‌های پررنگ‌تر با کنتراست بالا */
+.folds.strong {
   position: absolute;
   width: 300%;
   height: 300%;
   background: repeating-linear-gradient(
     -30deg,
-    rgba(40,40,40,0.1) 0px,
-    rgba(0,0,0,0.3) 60px,
-    rgba(40,40,40,0.1) 120px
+    rgba(80,80,80,0.3) 0px,
+    rgba(0,0,0,0.8) 60px,
+    rgba(80,80,80,0.3) 120px
   );
-  filter: blur(12px);
-  opacity: 0.25;
-  animation: driftFold 30s ease-in-out infinite;
+  filter: blur(6px);
+  opacity: 0.4;
+  animation: aliveWave 18s ease-in-out infinite;
   transform: rotate(-15deg);
 }
 
-/* لایه‌های با تأخیر و شدت متفاوت برای عمق بیشتر */
-.layer2 {
-  animation-delay: 10s;
-  opacity: 0.18;
-  filter: blur(20px);
+/* لایه نرم‌تر برای عمق و حرکت طبیعی */
+.folds.soft {
+  position: absolute;
+  width: 300%;
+  height: 300%;
+  background: repeating-linear-gradient(
+    -30deg,
+    rgba(60,60,60,0.2) 0px,
+    rgba(0,0,0,0.5) 60px,
+    rgba(60,60,60,0.2) 120px
+  );
+  filter: blur(12px);
+  opacity: 0.25;
+  animation: aliveWave 24s ease-in-out infinite;
+  transform: rotate(-15deg);
 }
 
-.layer3 {
-  animation-delay: 20s;
-  opacity: 0.12;
-  filter: blur(30px);
+.folds.delay {
+  animation-delay: 8s;
 }
 
-@keyframes driftFold {
-  0%   { transform: rotate(-15deg) translateX(0); }
-  50%  { transform: rotate(-15deg) translateX(-3%); }
-  100% { transform: rotate(-15deg) translateX(0); }
+@keyframes aliveWave {
+  0%   { transform: rotate(-15deg) translateX(0) scale(1); }
+  50%  { transform: rotate(-15deg) translateX(-3%) scale(1.05); }
+  100% { transform: rotate(-15deg) translateX(0) scale(1); }
 }
 </style>
