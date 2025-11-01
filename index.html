@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>شهاب‌سنگ‌های نقره‌ای</title>
+  <title>شهاب‌سنگ‌های نقره‌ای - سایت تجاری</title>
   <style>
     * {
       margin: 0;
@@ -12,10 +12,57 @@
     }
 
     body {
-      background: black;
+      background: linear-gradient(to bottom, #000428, #004e92);
       overflow: hidden;
       height: 100vh;
       position: relative;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .header {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+      color: white;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #ffffff, #c0c0c0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+      margin-bottom: 2rem;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 12px 30px;
+      background: linear-gradient(45deg, #4a00e0, #8e2de2);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(142, 45, 226, 0.4);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(142, 45, 226, 0.6);
     }
 
     .overlay {
@@ -24,22 +71,27 @@
       left: 0;
       width: 100%;
       height: 100%;
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.3);
       z-index: 2;
     }
 
     .meteor {
       position: absolute;
       bottom: 0;
-      background: silver;
+      background: linear-gradient(to top, rgba(255,255,255,0.8), rgba(192,192,192,1));
       border-radius: 50%;
       opacity: 0;
-      animation: rise 4s linear forwards;
+      filter: blur(1px);
+      box-shadow: 
+        0 0 5px rgba(255, 255, 255, 0.7),
+        0 0 10px rgba(192, 192, 255, 0.5),
+        0 0 15px rgba(192, 192, 255, 0.3);
+      animation: rise linear forwards;
     }
 
     @keyframes rise {
       0% {
-        transform: translateY(0) scale(0.5);
+        transform: translateY(0) translateX(0) scale(0.5);
         opacity: 0;
       }
       10% {
@@ -49,28 +101,112 @@
         opacity: 1;
       }
       100% {
-        transform: translateY(-100vh) scale(1.5);
+        transform: translateY(-100vh) translateX(var(--tx)) scale(1.5);
         opacity: 0;
+      }
+    }
+
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle 4s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.2;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      z-index: 10;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .header p {
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="stars" id="stars"></div>
   <div class="overlay"></div>
+  
+  <div class="header">
+    <h1>شهاب‌سنگ‌های نقره‌ای</h1>
+    <p>تجربه‌ای فراموش‌نشدنی از زیبایی کیهان در وبسایت ما. با تکنولوژی‌های پیشرفته و طراحی مدرن، لحظات بی‌نظیری را خلق کنید.</p>
+    <a href="#" class="cta-button">شروع کنید</a>
+  </div>
+
+  <div class="footer">
+    <p>© 2023 تمامی حقوق محفوظ است.</p>
+  </div>
 
   <script>
+    // ایجاد ستاره‌های ثابت در پس‌زمینه
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 200;
+      
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        
+        const size = Math.random() * 2;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        
+        star.style.animationDelay = `${Math.random() * 4}s`;
+        
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // ایجاد شهاب‌سنگ‌ها
     function createMeteor() {
       const meteor = document.createElement('div');
       meteor.classList.add('meteor');
 
-      const size = Math.random() * 2 + 1; // بین 1 تا 3 پیکسل
+      const size = Math.random() * 4 + 1; // بین 1 تا 5 پیکسل
       meteor.style.width = `${size}px`;
       meteor.style.height = `${size}px`;
 
+      // ایجاد مسیرهای تصادفی برای شهاب‌سنگ‌ها
       const left = Math.random() * window.innerWidth;
       meteor.style.left = `${left}px`;
 
-      const duration = 2 + Math.random() * 3;
+      // اضافه کردن حرکت افقی تصادفی
+      const tx = (Math.random() - 0.5) * 200; // حرکت افقی بین -100 تا 100 پیکسل
+      meteor.style.setProperty('--tx', `${tx}px`);
+
+      const duration = 2 + Math.random() * 4; // مدت زمان بین 2 تا 6 ثانیه
       meteor.style.animationDuration = `${duration}s`;
 
       document.body.appendChild(meteor);
@@ -80,7 +216,21 @@
       }, duration * 1000);
     }
 
-    setInterval(createMeteor, 100);
+    // مقداردهی اولیه
+    function init() {
+      createStars();
+      
+      // ایجاد شهاب‌سنگ‌ها با فاصله‌های تصادفی
+      setInterval(createMeteor, 100 + Math.random() * 200);
+    }
+
+    // شروع انیمیشن پس از لود صفحه
+    window.addEventListener('load', init);
+
+    // تنظیم مجدد موقعیت شهاب‌سنگ‌ها هنگام تغییر سایز پنجره
+    window.addEventListener('resize', function() {
+      // در یک پروژه واقعی ممکن است نیاز به تنظیم مجدد موقعیت‌ها باشد
+    });
   </script>
 </body>
 </html>
