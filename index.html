@@ -1,170 +1,126 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>بک‌گراند شهاب‌سنگ نقره‌ای</title>
+  <meta charset="UTF-8">
+  <title>بازی مربع جادویی با جابجایی</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
-      background: #000;
-      overflow: hidden;
+      background: #0f1220;
+      color: #e9edf7;
+      font-family: Vazirmatn, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       height: 100vh;
-      position: relative;
-      touch-action: none;
+      margin: 0;
     }
-
-    .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
-      z-index: 2;
+    h1 {
+      margin-bottom: 10px;
     }
-
-    .stars {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 1;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-template-rows: repeat(3, 80px);
+      gap: 10px;
+      margin-bottom: 20px;
     }
-
-    .star {
-      position: absolute;
-      background-color: white;
-      border-radius: 50%;
-      animation: twinkle 5s infinite ease-in-out;
+    .cell {
+      background: #1c2240;
+      border: 2px solid #2ea0ff;
+      border-radius: 12px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.1s ease;
     }
-
-    @keyframes twinkle {
-      0%, 100% {
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.1);
-      }
+    .cell.empty {
+      background: #0f1220;
+      border: 2px dashed #555;
+      cursor: default;
     }
-
-    .meteor {
-      position: absolute;
-      bottom: 0;
-      background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(192,192,192,1));
-      border-radius: 50% 50% 0 0;
-      opacity: 0;
-      filter: blur(0.5px);
-      box-shadow:
-        0 0 8px rgba(255, 255, 255, 0.9),
-        0 0 15px rgba(192, 192, 255, 0.7),
-        0 0 25px rgba(192, 192, 255, 0.5);
-      animation: rise linear forwards;
-      transform-origin: bottom center;
+    .controls {
+      display: flex;
+      gap: 10px;
     }
-
-    @keyframes rise {
-      0% {
-        transform: translateY(0) translateX(0) scale(0.3) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) translateX(var(--tx)) scale(1.8) rotate(5deg);
-        opacity: 0;
-      }
+    button {
+      background: #2ea0ff;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1f8de0;
+    }
+    .message {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #cfe3ff;
     }
   </style>
 </head>
 <body>
-  <div class="stars" id="stars"></div>
-  <div class="overlay"></div>
+  <h1>بازی مربع جادویی</h1>
+  <div class="grid" id="grid"></div>
+  <div class="controls">
+    <button onclick="resetGrid()">ریست</button>
+  </div>
+  <div class="message" id="message">روی عددهای مجاور خانه خالی کلیک کن تا جابجا شوند.</div>
 
   <script>
-    function createStars() {
-      const starsContainer = document.getElementById('stars');
-      const starCount = 300;
+    const gridEl = document.getElementById('grid');
+    const messageEl = document.getElementById('message');
 
-      for (let i = 0; i < starCount; i++) {
-        const star = document.createElement('div');
-        star.classList.add('star');
+    let grid = [1, 3, 5, 6, null, 4, 2, 7, 8];
 
-        const size = Math.random() * 3;
-        star.style.width = `${size}px`;
-        star.style.height = `${size}px`;
-
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-
-        star.style.animationDelay = `${Math.random() * 5}s`;
-
-        starsContainer.appendChild(star);
-      }
-    }
-
-    function createMeteor() {
-      const meteor = document.createElement('div');
-      meteor.classList.add('meteor');
-
-      const sizeOptions = [1.5, 2, 2.5, 3, 3.5];
-      const size = sizeOptions[Math.floor(Math.random() * sizeOptions.length)];
-      meteor.style.width = `${size}px`;
-      meteor.style.height = `${size * 3}px`;
-
-      const left = Math.random() * window.innerWidth;
-      meteor.style.left = `${left}px`;
-
-      const tx = (Math.random() - 0.5) * 150;
-      meteor.style.setProperty('--tx', `${tx}px`);
-
-      const duration = 2 + Math.random() * 5;
-      meteor.style.animationDuration = `${duration}s`;
-
-      document.body.appendChild(meteor);
-
-      setTimeout(() => {
-        if (meteor.parentNode) {
-          meteor.remove();
+    function renderGrid() {
+      gridEl.innerHTML = '';
+      grid.forEach((val, idx) => {
+        const cell = document.createElement('div');
+        cell.className = 'cell' + (val === null ? ' empty' : '');
+        cell.textContent = val ?? '';
+        cell.dataset.index = idx;
+        if (val !== null) {
+          cell.onclick = () => tryMove(idx);
         }
-      }, duration * 1000);
+        gridEl.appendChild(cell);
+      });
     }
 
-    let meteorInterval;
-
-    function startMeteors() {
-      meteorInterval = setInterval(createMeteor, 150 + Math.random() * 250);
-    }
-
-    function stopMeteors() {
-      clearInterval(meteorInterval);
-    }
-
-    function init() {
-      createStars();
-      startMeteors();
-    }
-
-    window.addEventListener('load', init);
-
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) {
-        stopMeteors();
-      } else {
-        startMeteors();
+    function tryMove(idx) {
+      const emptyIdx = grid.indexOf(null);
+      const validMoves = getAdjacentIndices(emptyIdx);
+      if (validMoves.includes(idx)) {
+        [grid[emptyIdx], grid[idx]] = [grid[idx], grid[emptyIdx]];
+        renderGrid();
       }
-    });
+    }
 
-    // جلوگیری از رفتار کلیک و زوم
-    document.body.addEventListener('click', e => e.preventDefault());
+    function getAdjacentIndices(i) {
+      const moves = [];
+      const row = Math.floor(i / 3);
+      const col = i % 3;
+      if (row > 0) moves.push(i - 3);
+      if (row < 2) moves.push(i + 3);
+      if (col > 0) moves.push(i - 1);
+      if (col < 2) moves.push(i + 1);
+      return moves;
+    }
+
+    function resetGrid() {
+      grid = [1, 3, 5, 6, null, 4, 2, 7, 8];
+      renderGrid();
+      messageEl.textContent = 'روی عددهای مجاور خانه خالی کلیک کن تا جابجا شوند.';
+    }
+
+    resetGrid();
   </script>
 </body>
 </html>
