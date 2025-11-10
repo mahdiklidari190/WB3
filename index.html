@@ -2,7 +2,7 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>بازی مربع جادویی با جابجایی</title>
+  <title>بازی مربع جادویی - جابجایی چپ به راست</title>
   <style>
     body {
       background: #0f1220;
@@ -78,7 +78,7 @@
     const gridEl = document.getElementById('grid');
     const messageEl = document.getElementById('message');
 
-    let grid = [5, 3, 1, 4, null, 6, 8, 7, 2];
+    let grid = [];
 
     function renderGrid() {
       gridEl.innerHTML = '';
@@ -115,7 +115,11 @@
     }
 
     function resetGrid() {
-      grid = [1, 3, 5, 6, null, 4, 2, 7, 8];
+      grid = [
+        1, 3, 5,
+        6, null, 4,
+        2, 7, 8
+      ];
       renderGrid();
       messageEl.textContent = 'روی عددهای مجاور خانه خالی کلیک کن تا جابجا شوند.';
     }
