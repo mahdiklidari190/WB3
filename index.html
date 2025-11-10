@@ -2,129 +2,144 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>بازی مربع جادویی - جابجایی چپ به راست</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>پازل مربع با خانه خالی</title>
   <style>
-    body {
-      background: #0f1220;
-      color: #e9edf7;
-      font-family: Vazirmatn, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
+    :root{
+      --bg:#0f1220; --cell:#1c2240; --text:#e9edf7; --accent:#2ea0ff; --muted:#a8b3cf;
     }
-    h1 {
-      margin-bottom: 10px;
+    *{box-sizing:border-box}
+    body{
+      margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background:radial-gradient(900px 600px at 70% -200px,#1a2250,#0f1220 70%);
+      color:var(--text); font-family:Vazirmatn,Segoe UI,system-ui,sans-serif; padding:24px;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 80px);
-      grid-template-rows: repeat(3, 80px);
-      gap: 10px;
-      margin-bottom: 20px;
+    .card{
+      width:100%; max-width:420px; background:#141936ee; border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; padding:18px; box-shadow:0 10px 24px rgba(0,0,0,.35);
     }
-    .cell {
-      background: #1c2240;
-      border: 2px solid #2ea0ff;
-      border-radius: 12px;
-      font-size: 24px;
-      font-weight: bold;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.1s ease;
+    .title{font-weight:800; font-size:18px}
+    .subtitle{color:var(--muted); font-size:13px; margin-top:4px}
+    .grid{
+      display:grid; grid-template-columns:repeat(3,100px); grid-template-rows:repeat(3,100px);
+      gap:10px; justify-content:center; margin:18px auto 12px;
     }
-    .cell.empty {
-      background: #0f1220;
-      border: 2px dashed #555;
-      cursor: default;
+    @media (max-width:420px){
+      .grid{grid-template-columns:repeat(3,86px); grid-template-rows:repeat(3,86px);}
     }
-    .controls {
-      display: flex;
-      gap: 10px;
+    .cell{
+      background:var(--cell); border:2px solid #293669; border-radius:14px; color:#fff; font-weight:800; font-size:28px;
+      display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform .08s ease, border-color .15s ease;
+      user-select:none;
     }
-    button {
-      background: #2ea0ff;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
+    .cell:hover{transform:translateY(-2px); border-color:#3b4a92}
+    .cell.empty{
+      background:transparent; border:2px dashed #4b5477; color:transparent; cursor:default;
     }
-    button:hover {
-      background: #1f8de0;
+    .controls{display:flex; gap:10px; justify-content:center; margin-top:10px}
+    .btn{
+      background:linear-gradient(180deg,#2d67ff,#214fe2); border:none; color:#fff; font-weight:800;
+      padding:10px 14px; border-radius:10px; cursor:pointer;
     }
-    .message {
-      margin-top: 12px;
-      font-size: 14px;
-      color: #cfe3ff;
-    }
+    .btn.secondary{background:linear-gradient(180deg,#2a324f,#212944); color:#cfe3ff; border:1px solid rgba(255,255,255,.08)}
+    .msg{margin-top:10px; font-size:13px; color:#cfe3ff; text-align:center}
+    .ok{color:#2ecc71}
+    .bad{color:#ff6b6b}
   </style>
 </head>
 <body>
-  <h1>بازی مربع جادویی</h1>
-  <div class="grid" id="grid"></div>
-  <div class="controls">
-    <button onclick="resetGrid()">ریست</button>
-  </div>
-  <div class="message" id="message">روی عددهای مجاور خانه خالی کلیک کن تا جابجا شوند.</div>
+  <section class="card">
+    <div class="title">پازل ۳×۳ با خانه خالی</div>
+    <div class="subtitle">روی عددهای مجاور خانه خالی کلیک کن تا جابه‌جا شوند.</div>
+
+    <div id="grid" class="grid" aria-label="پازل ۳×۳"></div>
+
+    <div class="controls">
+      <button class="btn secondary" id="resetBtn">ریست به چینش خواسته‌شده</button>
+      <button class="btn" id="checkBtn">بررسی مجموع‌ها</button>
+    </div>
+
+    <div id="message" class="msg">چینش اولیه: 1,3,5 | 6,خالی,4 | 2,7,8</div>
+  </section>
 
   <script>
     const gridEl = document.getElementById('grid');
-    const messageEl = document.getElementById('message');
+    const msgEl = document.getElementById('message');
+    const resetBtn = document.getElementById('resetBtn');
+    const checkBtn = document.getElementById('checkBtn');
 
-    let grid = [];
+    // چینش دقیق موردنظر:
+    // 1 3 5
+    // 6 _ 4
+    // 2 7 8
+    let grid = [1,3,5, 6,null,4, 2,7,8];
 
-    function renderGrid() {
+    function render(){
       gridEl.innerHTML = '';
-      grid.forEach((val, idx) => {
-        const cell = document.createElement('div');
-        cell.className = 'cell' + (val === null ? ' empty' : '');
-        cell.textContent = val ?? '';
-        cell.dataset.index = idx;
-        if (val !== null) {
-          cell.onclick = () => tryMove(idx);
+      grid.forEach((val, idx)=>{
+        const d = document.createElement('div');
+        d.className = 'cell' + (val===null ? ' empty' : '');
+        d.textContent = val ?? '';
+        d.dataset.idx = idx;
+        if(val!==null){
+          d.addEventListener('click', ()=> tryMove(idx));
         }
-        gridEl.appendChild(cell);
+        gridEl.appendChild(d);
       });
     }
 
-    function tryMove(idx) {
+    function tryMove(idx){
       const emptyIdx = grid.indexOf(null);
-      const validMoves = getAdjacentIndices(emptyIdx);
-      if (validMoves.includes(idx)) {
+      const neighbors = getNeighbors(emptyIdx);
+      if(neighbors.includes(idx)){
         [grid[emptyIdx], grid[idx]] = [grid[idx], grid[emptyIdx]];
-        renderGrid();
+        render();
+        msgEl.textContent = 'جابجایی انجام شد.';
+      } else {
+        msgEl.textContent = 'فقط خانه‌های مجاور جای خالی قابل جابه‌جایی‌اند.';
       }
     }
 
-    function getAdjacentIndices(i) {
-      const moves = [];
-      const row = Math.floor(i / 3);
-      const col = i % 3;
-      if (row > 0) moves.push(i - 3);
-      if (row < 2) moves.push(i + 3);
-      if (col > 0) moves.push(i - 1);
-      if (col < 2) moves.push(i + 1);
-      return moves;
+    function getNeighbors(i){
+      const r = Math.floor(i/3), c = i%3, list=[];
+      if(r>0) list.push(i-3);
+      if(r<2) list.push(i+3);
+      if(c>0) list.push(i-1);
+      if(c<2) list.push(i+1);
+      return list;
     }
 
-    function resetGrid() {
-      grid = [
-        1, 3, 5,
-        6, null, 4,
-        2, 7, 8
-      ];
-      renderGrid();
-      messageEl.textContent = 'روی عددهای مجاور خانه خالی کلیک کن تا جابجا شوند.';
+    function reset(){
+      grid = [1,3,5, 6,null,4, 2,7,8];
+      render();
+      msgEl.textContent = 'چینش به حالت خواسته‌شده برگشت.';
     }
 
-    resetGrid();
+    function check(){
+      // بررسی مجموع سطرها، ستون‌ها و قطرها (هدف کلاسیک: 15)
+      const rows = [grid.slice(0,3), grid.slice(3,6), grid.slice(6,9)];
+      const cols = [[grid[0],grid[3],grid[6]], [grid[1],grid[4],grid[7]], [grid[2],grid[5],grid[8]]];
+      const diags = [[grid[0],grid[4],grid[8]], [grid[2],grid[4],grid[6]]];
+
+      function sum(line){ return line.reduce((a,b)=> a + (b ?? 0), 0); }
+      const rowS = rows.map(sum), colS = cols.map(sum), diagS = diags.map(sum);
+
+      const allGood = [...rowS, ...colS, ...diagS].every(v=> v===15);
+      msgEl.classList.remove('ok','bad');
+      if(allGood){
+        msgEl.textContent = 'آفرین! مجموع همه خطوط ۱۵ است.';
+        msgEl.classList.add('ok');
+      }else{
+        msgEl.textContent = `مجموع‌ها — سطرها: ${rowS.join(', ')} | ستون‌ها: ${colS.join(', ')} | قطرها: ${diagS.join(', ')}`;
+        msgEl.classList.add('bad');
+      }
+    }
+
+    resetBtn.addEventListener('click', reset);
+    checkBtn.addEventListener('click', check);
+
+    // شروع
+    render();
   </script>
 </body>
 </html>
